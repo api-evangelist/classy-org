@@ -1,0 +1,147 @@
+aid: classy-org
+name: Classy
+review:
+  question: Does Classy expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Classy's public developer surface
+    (api.classy.org/2.0) is request/response REST over HTTPS - there is no
+    server-push transport (WebSocket or SSE) documented anywhere in the
+    Classy/GoFundMe Pro developer docs, the official classy-org GitHub
+    organization's SDKs (classy-node, classy-api-client, classy-php-sdk),
+    or the official classy-org/postman-collections examples. Classy also
+    does not publish a documented public webhooks resource (no
+    subscribe/register-endpoint pattern was found in the API's resource
+    map); the closest adjacent resource, OrganizationNotifications, governs
+    account notification settings rather than outbound event delivery.
+    Real-time attribution instead runs through polling patterns (source
+    tracking codes, transaction/overview lookups) built on top of the REST
+    API.
+findings:
+  summary: |
+    Classy does not publish a documented public WebSocket API, and it does
+    not publish a documented public webhooks/event-subscription API either.
+    Classy is an online fundraising platform for nonprofits (donation
+    forms, peer-to-peer campaigns, crowdfunding, ticketed events), acquired
+    by GoFundMe in 2022 and being folded into the GoFundMe Pro brand
+    starting in 2025-2026. Its public API lives at
+    https://api.classy.org/2.0, authenticated with an OAuth2
+    client_credentials Bearer token obtained from POST /oauth2/auth (JSON
+    body: client_id, client_secret, grant_type). Every documented resource
+    - Organizations, Campaigns, Fundraising Pages, Fundraising Teams,
+    Transactions, Recurring Donation Plans, Members, Supporters,
+    Designations, and 40+ others per the official classy-node SDK's
+    resource map - is exposed as plain request/response REST with a
+    Laravel-style pagination envelope. No realtime, bidirectional, or
+    streaming WebSocket (ws:// or wss://) endpoint, and no outbound
+    webhook/event-subscription resource, is documented on Classy's own
+    public API as of the review date.
+  openSource: |
+    Classy's public API itself is closed/proprietary and requires a paid
+    Classy/GoFundMe Pro account to obtain client credentials. Classy
+    publishes open-source client SDKs and sample apps under the
+    github.com/classy-org organization (classy-node, classy-php-sdk,
+    classy-api-client, classy-angular, custom-leaderboard-sample-app,
+    custom-progress-bar-sample-app, postman-collections), which is where
+    the confirmed endpoint and payload shapes for this review came from.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.classy.org/2.0
+      documented: true
+      note: The entire public Classy API surface - Organizations, Campaigns, Fundraising Pages, Transactions, Recurring Donation Plans, Members, Supporters, Designations, and more.
+    - protocol: OAuth2
+      scheme: https
+      documented: true
+      note: Token endpoint at https://api.classy.org/oauth2/auth (client_credentials grant, JSON body); Bearer token used on all subsequent REST calls.
+    - protocol: Webhook
+      scheme: https
+      documented: false
+      note: No outbound webhook/event-subscription resource is documented in the Classy resource map or SDKs; OrganizationNotifications governs notification settings, not event delivery.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Classy's API reference, SDKs, or Postman collections as of the review date.
+  endpointsConfirmed:
+    - POST   https://api.classy.org/oauth2/auth
+    - GET    https://api.classy.org/2.0/organizations/{id}
+    - GET    https://api.classy.org/2.0/organizations/{id}/campaigns
+    - POST   https://api.classy.org/2.0/organizations/{id}/campaigns
+    - GET    https://api.classy.org/2.0/organizations/{id}/designations
+    - GET    https://api.classy.org/2.0/organizations/{id}/fundraising-pages
+    - GET    https://api.classy.org/2.0/organizations/{id}/supporters
+    - GET    https://api.classy.org/2.0/organizations/{id}/transactions?with=items
+    - GET    https://api.classy.org/2.0/organizations/{id}/recurring-donation-plans
+    - GET    https://api.classy.org/2.0/organizations/{id}/source-tracking-codes
+    - GET    https://api.classy.org/2.0/campaigns/{id}
+    - PUT    https://api.classy.org/2.0/campaigns/{id}
+    - GET    https://api.classy.org/2.0/campaigns/{id}/overview
+    - POST   https://api.classy.org/2.0/campaigns/{id}/publish
+    - POST   https://api.classy.org/2.0/campaigns/{id}/unpublish
+    - POST   https://api.classy.org/2.0/campaigns/{id}/deactivate
+    - GET    https://api.classy.org/2.0/campaigns/{id}/fundraising-pages
+    - GET    https://api.classy.org/2.0/campaigns/{id}/fundraising-teams
+    - GET    https://api.classy.org/2.0/campaigns/{id}/transactions?with=items
+    - POST   https://api.classy.org/2.0/campaigns/{id}/transactions
+    - GET    https://api.classy.org/2.0/campaigns/{id}/source-tracking-codes
+    - GET    https://api.classy.org/2.0/fundraising-pages/{id}?with=source_tracking_codes
+    - PUT    https://api.classy.org/2.0/fundraising-pages/{id}
+    - DELETE https://api.classy.org/2.0/fundraising-pages/{id}
+    - GET    https://api.classy.org/2.0/fundraising-teams/{id}?with=source_tracking_codes
+    - PUT    https://api.classy.org/2.0/fundraising-teams/{id}
+    - DELETE https://api.classy.org/2.0/fundraising-teams/{id}
+    - GET    https://api.classy.org/2.0/transactions/{id}?with=items
+    - PUT    https://api.classy.org/2.0/transactions/{id}
+    - GET    https://api.classy.org/2.0/recurring-donation-plans/{id}
+    - GET    https://api.classy.org/2.0/recurring-donation-plans/{id}/transactions?with=items
+    - GET    https://api.classy.org/2.0/members/{id}
+    - GET    https://api.classy.org/2.0/supporters/{id}
+    - PUT    https://api.classy.org/2.0/supporters/{id}
+    - GET    https://api.classy.org/2.0/designations/{id}
+    - PUT    https://api.classy.org/2.0/designations/{id}
+  endpointsModeled: |
+    Request and response field shapes (Transaction, TransactionItem,
+    Campaign, FundraisingPage, FundraisingTeam, SourceTrackingCode,
+    Organization, Member, Supporter, Designation, RecurringDonationPlan)
+    are modeled in openapi/classy-org-openapi.yml from the official
+    classy-org/postman-collections example bodies and the classy-node
+    resources.json path map, since Classy does not publish a
+    machine-readable OpenAPI/Swagger document of its own. The broader
+    resource surface (52+ resource types recorded in classy-node, including
+    Assets, Blocks, Ecards, Groups, Messages, Posts, Workflows, and more)
+    exists but is not individually modeled here; only the nine logical APIs
+    most relevant to donor/campaign data (Organizations, Campaigns,
+    Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation
+    Plans, Members, Supporters, Designations) are covered.
+sources:
+  - url: https://developers.classy.org/overview/authentication
+    type: Documentation
+    note: Redirects to developers.gofundme.com/pro/overview/authentication; confirms OAuth2 client_credentials flow and Bearer token usage.
+  - url: https://github.com/classy-org/postman-collections
+    type: SourceCode
+    note: Official Classy/GoFundMe Pro Postman collections (Authentication, Bulk Offline Donations, Fetch Source Codes, Fetch Multi-Item Order) - source of confirmed endpoints and example payloads, including x-kong-limit/x-kong-proxy-latency response headers.
+  - url: https://github.com/classy-org/classy-node
+    type: SourceCode
+    note: Official Node.js SDK; src/resources.json enumerates 52 resource types with their REST paths and supported methods.
+  - url: https://github.com/classy-org
+    type: SourceCode
+    note: Official Classy GitHub organization - SDKs, sample apps, and Postman collections; no webhook or WebSocket related repository present.
+  - url: https://support.classy.org/s/article/intro-to-the-classy-api
+    type: Documentation
+    note: Redirects to prosupport.gofundme.com; how to obtain client_id/client_secret, referenced by the official Postman collections.
+  - url: https://pro.gofundme.com/c/pricing/
+    type: Documentation
+    note: Essentials (free, <$1M revenue) vs Custom (contact sales, >$1M revenue) plan tiers; API access bundled with subscription.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and no webhook/event-subscription
+    resource exists either. Classy's own public API is entirely
+    request/response REST (api.classy.org/2.0) behind an OAuth2
+    client_credentials Bearer token. No AsyncAPI document was created
+    because there is no server-push or streaming transport on Classy's own
+    API to model.

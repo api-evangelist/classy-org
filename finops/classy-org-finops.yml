@@ -1,0 +1,104 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Classy
+providerId: classy-org
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Nonprofit
+- Fundraising
+- Donations
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Classy (transitioning to GoFundMe Pro) spend from a
+  nonprofit customer's perspective. Cost has two layers: a subscription
+  layer (Essentials is $0/month for nonprofits under $1M in annual revenue;
+  Custom is a negotiated annual/monthly fee for larger nonprofits) and a
+  usage layer driven by donation volume - GoFundMe Pay processing fees plus
+  a platform fee charged per transaction, alongside optional paid add-ons
+  (Giving Cart, Live Events, Salesforce/CRM integrations, connected
+  accounts). The api.classy.org/2.0 API itself carries no separate metered
+  charge; it is bundled access included with the subscription, used to
+  automate data that would otherwise be pulled through the Classy/GoFundMe
+  Pro admin console.
+notes: >-
+  Per-unit platform and processing fee rates are contract-specific and not
+  published as a flat percentage; verify current rates on the GoFundMe Pro
+  pricing page and in your organization's agreement during reconciliation.
+sources:
+- https://pro.gofundme.com/c/pricing/
+- https://www.classy.org/
+- https://developers.gofundme.com/pro/docs
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Classy (GoFundMe Pro)
+serviceCategory: Nonprofit Fundraising Software
+billingModel:
+  pricingCategory: Subscription plus Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Subscription
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Classy / GoFundMe Pro
+  ServiceCategory: Nonprofit Fundraising Software
+  ProviderName: Classy
+  PublisherName: GoFundMe Pro
+  InvoiceIssuerName: GoFundMe Pro
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Subscription plus Usage-Based
+meters:
+- name: subscription_fee
+  description: Monthly/annual platform subscription (Essentials is $0; Custom is negotiated).
+  unit: accounts
+  aggregation: sum
+  dimensions:
+  - organization
+  - plan_tier
+- name: transaction_volume
+  description: Gross donation/ticket/merchandise volume processed through Classy/GoFundMe Pay, the base for platform and processing fees.
+  unit: USD
+  aggregation: sum
+  dimensions:
+  - organization
+  - campaign
+  - designation
+- name: platform_fee
+  description: Per-transaction platform fee charged on top of payment processing, contract-dependent rate.
+  unit: USD
+  aggregation: sum
+  dimensions:
+  - organization
+  - campaign
+- name: add_on_fees
+  description: Optional paid add-ons (Giving Cart, Live Events, Salesforce/CRM integrations, connected accounts).
+  unit: USD
+  aggregation: sum
+  dimensions:
+  - organization
+  - add_on
+principles:
+- name: Visibility
+  description: Track gross transaction volume, platform fees, and processing fees per campaign/designation using the Transactions and Designations APIs, rather than relying solely on the admin console.
+- name: Allocation
+  description: Use campaign and designation IDs to map donation revenue and associated fees back to programs and cost centers.
+- name: Optimization
+  description: Consolidate onto a single plan tier appropriate to revenue size, review whether paid add-ons (Giving Cart, Live Events) are justified by usage, and reconcile processing fees against negotiated contract rates.
+- name: Accountability
+  description: Assign a development/finance owner to review the monthly subscription, add-on, and per-transaction fee lines, especially through the 2025-2026 GoFundMe Pro rebrand and any contract renegotiation.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

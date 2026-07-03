@@ -1,0 +1,218 @@
+aid: classy-org
+url: https://raw.githubusercontent.com/api-evangelist/classy-org/refs/heads/main/apis.yml
+name: Classy
+kind: company
+description: Classy is an online fundraising platform for nonprofits - donation
+  forms, peer-to-peer campaigns, crowdfunding, and event/ticketing pages - built
+  around Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions,
+  Recurring Donation Plans, Members, Supporters, and Designations. GoFundMe acquired
+  Classy in 2022 and announced in 2025 that the Classy product and brand are being
+  folded into GoFundMe Pro; the Classy name is being retired through 2026 while
+  the underlying software, the api.classy.org/2.0 REST API, and the developer
+  docs (developers.classy.org, now redirecting to developers.gofundme.com/pro)
+  continue to operate under the GoFundMe Pro banner.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Nonprofit
+- Fundraising
+- Donations
+- Peer to Peer
+- Philanthropy
+- Payments
+- GoFundMe Pro
+created: '2026-07-03'
+modified: '2026-07-03'
+specificationVersion: '0.19'
+apis:
+- aid: classy-org:classy-org-organizations-api
+  name: Classy Organizations API
+  tags:
+  - Organizations
+  - Nonprofits
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve nonprofit organization records and their nested collections -
+    campaigns, designations, fundraising pages, fundraising teams, supporters,
+    transactions, recurring donation plans, credential sets, and integrations -
+    plus organization-level settings such as branding and engagement configuration.
+- aid: classy-org:classy-org-campaigns-api
+  name: Classy Campaigns API
+  tags:
+  - Campaigns
+  - Donation Forms
+  - Peer to Peer
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Create, retrieve, and update campaigns - the donation forms, peer-to-peer
+    drives, crowdfunding pages, and ticketed events nonprofits run on Classy -
+    plus publish/unpublish/deactivate lifecycle actions and nested collections
+    (fundraising pages, fundraising teams, designations, transactions, updates,
+    stories, promo codes, ticket types).
+- aid: classy-org:classy-org-fundraising-pages-api
+  name: Classy Fundraising Pages API
+  tags:
+  - Fundraising Pages
+  - Personal Pages
+  - Peer to Peer
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve, update, and delete individual peer-to-peer fundraising
+    pages created under a campaign, including their overview/progress stats,
+    posts, updates, stories, feed items, and soft credits.
+- aid: classy-org:classy-org-fundraising-teams-api
+  name: Classy Fundraising Teams API
+  tags:
+  - Fundraising Teams
+  - Peer to Peer
+  - Groups
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Manage fundraising teams and subteams under a campaign - retrieve,
+    update, and delete teams, list member fundraising pages and subteams, and
+    pull team-level overview/progress stats and activity feeds.
+- aid: classy-org:classy-org-transactions-api
+  name: Classy Transactions API
+  tags:
+  - Transactions
+  - Donations
+  - Payments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Fetch individual transactions (donations, ticket and merchandise
+    orders) with their line items, source tracking codes, and acknowledgements,
+    list transactions scoped to an organization/campaign/recurring donation plan,
+    and post offline/bulk donation transactions against a campaign.
+- aid: classy-org:classy-org-recurring-donation-plans-api
+  name: Classy Recurring Donation Plans API
+  tags:
+  - Recurring Donations
+  - Subscriptions
+  - Sustainers
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve and update recurring (sustainer) donation plans and list
+    the individual transactions a plan has generated over its billing history.
+- aid: classy-org:classy-org-members-api
+  name: Classy Members API
+  tags:
+  - Members
+  - Fundraisers
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve a Classy member (the account behind a fundraiser or admin
+    user) and list the organizations, fundraising teams, fundraising pages, and
+    recurring donation plans associated with that member.
+- aid: classy-org:classy-org-supporters-api
+  name: Classy Supporters API
+  tags:
+  - Supporters
+  - Donors
+  - CRM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve and update supporter records - the donor/CRM profile Classy
+    maintains per organization - and trigger Mailchimp subscribe actions for a
+    supporter.
+- aid: classy-org:classy-org-designations-api
+  name: Classy Designations API
+  tags:
+  - Designations
+  - Funds
+  - Restricted Giving
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.gofundme.com/pro/docs
+  baseURL: https://api.classy.org/2.0
+  properties:
+  - url: https://developers.gofundme.com/pro/docs
+    type: Documentation
+  - url: https://developers.gofundme.com/pro/api-docs/overview.html
+    type: APIReference
+  - url: openapi/classy-org-openapi.yml
+    type: OpenAPI
+  description: Retrieve and update designations - the funds/programs an organization
+    or campaign lets donors direct their gift toward - and list an organization's
+    designations or a campaign's unassigned designations.
+common:
+- type: GitHubOrganization
+  url: https://github.com/classy-org
+- type: LinkedIn
+  url: https://www.linkedin.com/company/stayclassy
+- type: Website
+  url: https://www.classy.org
+- type: Documentation
+  url: https://developers.gofundme.com/pro/docs
+- type: Plans
+  url: plans/classy-org-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/classy-org-rate-limits.yml
+- type: FinOps
+  url: finops/classy-org-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

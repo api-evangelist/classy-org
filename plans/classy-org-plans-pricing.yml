@@ -1,0 +1,144 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Classy
+providerId: classy-org
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Nonprofit
+- Fundraising
+- Donations
+- Plans
+description: >-
+  Classy (transitioning to GoFundMe Pro) sells the fundraising platform to
+  nonprofit organizations, not the API by itself - API access is included
+  with a paid Classy/GoFundMe Pro subscription rather than metered or sold
+  separately. Classy publishes two tiers: an Essentials plan with zero
+  subscription/setup fees for nonprofits under $1M in annual revenue, and a
+  Custom plan (contact sales) for larger nonprofits over $1M in annual
+  revenue with assisted onboarding. Both tiers include the core product
+  suite - unlimited campaigns and donation forms, recurring giving, GoFundMe
+  Pay processing, marketing analytics, the donor dashboard, campaign
+  templates, fraud protection, and an integrations hub - with the
+  developer/API access documented at developers.classy.org (now
+  developers.gofundme.com/pro) as part of that same account. Optional
+  add-ons (Giving Cart, Live Events, Salesforce/CRM integrations, connected
+  accounts for federated organizations) carry additional fees on either
+  tier, and payment processing (GoFundMe Pay) and platform transaction fees
+  apply on top of the subscription per-transaction.
+notes: >-
+  Exact platform/transaction fee percentages are set per contract and are
+  not published as a flat rate; third-party estimates place Classy's
+  historical platform fee in the roughly 2-5% range plus payment processor
+  fees, on top of any subscription cost. Verify current rates and add-on
+  pricing directly with GoFundMe Pro sales during reconciliation.
+sources:
+- https://pro.gofundme.com/c/pricing/
+- https://www.classy.org/
+- https://developers.gofundme.com/pro/docs
+- https://support.classy.org/s/article/intro-to-the-classy-api
+plans:
+- id: classy-essentials
+  name: Essentials
+  type: free
+  description: >-
+    Zero subscription fees and no setup costs, for nonprofits with annual
+    revenue under $1 million. Includes the full core product suite and
+    same-day access.
+  entries:
+  - label: Subscription Fee
+    name: essentials_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  elements:
+  - name: Unlimited Campaigns and Donation Forms
+  - name: Recurring Giving
+  - name: GoFundMe Pay Processing
+  - name: Marketing Analytics and Reporting
+  - name: Donor Dashboard
+  - name: Campaign Templating
+  - name: Fraud Protection
+  - name: Integrations Hub
+  - name: Customer Support
+  - name: Social Sharing via Meta
+  - name: Classy/GoFundMe Pro API Access
+- id: classy-custom
+  name: Custom
+  type: enterprise
+  description: >-
+    Custom-quoted plan for growing nonprofits with annual revenue over $1
+    million, with assisted/managed onboarding. Same core feature set as
+    Essentials plus negotiated terms and support.
+  entries:
+  - label: Custom Agreement
+    name: custom_agreement
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Unlimited Campaigns and Donation Forms
+  - name: Recurring Giving
+  - name: GoFundMe Pay Processing
+  - name: Marketing Analytics and Reporting
+  - name: Assisted Onboarding
+  - name: Dedicated Support
+  - name: Classy/GoFundMe Pro API Access
+- id: classy-add-ons
+  name: Add-Ons (Either Tier)
+  type: usage
+  description: >-
+    Optional paid add-ons layered on top of either the Essentials or Custom
+    tier.
+  entries:
+  - label: Add-On Fee
+    name: add_on_fee
+    type: flat
+    metric: feature
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: additional fee per add-on (see pricing page)
+    userMultiplied: false
+  elements:
+  - name: Giving Cart
+  - name: Live Events
+  - name: Salesforce/CRM Integrations
+  - name: Connected Accounts (Federated Organizations)
+- id: classy-transaction-fees
+  name: Transaction and Processing Fees
+  type: usage
+  description: >-
+    Per-transaction platform and payment-processing fees apply on top of
+    the subscription tier and are set per contract; not a fixed published
+    rate.
+  entries:
+  - label: Platform + Processing Fee
+    name: transaction_fee
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contract-dependent, historically reported around 2-5% plus processor fees
+    userMultiplied: false
+  elements:
+  - name: GoFundMe Pay Processing
+  - name: Platform Fee
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

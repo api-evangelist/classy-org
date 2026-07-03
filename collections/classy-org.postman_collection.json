@@ -1,0 +1,348 @@
+{
+  "info": {
+    "name": "Classy API (GoFundMe Pro)",
+    "description": "Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations on the Classy (GoFundMe Pro) fundraising platform. Base URL: https://api.classy.org/2.0. Authenticate with OAuth2 client_credentials against https://api.classy.org/oauth2/auth, then set the returned access_token as a Bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "authUrl", "value": "https://api.classy.org", "type": "string" },
+    { "key": "baseUrl", "value": "https://api.classy.org/2.0", "type": "string" },
+    { "key": "clientId", "value": "", "type": "string" },
+    { "key": "clientSecret", "value": "", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" },
+    { "key": "organizationId", "value": "", "type": "string" },
+    { "key": "campaignId", "value": "", "type": "string" },
+    { "key": "fundraisingPageId", "value": "", "type": "string" },
+    { "key": "fundraisingTeamId", "value": "", "type": "string" },
+    { "key": "transactionId", "value": "", "type": "string" },
+    { "key": "recurringDonationPlanId", "value": "", "type": "string" },
+    { "key": "memberId", "value": "", "type": "string" },
+    { "key": "supporterId", "value": "", "type": "string" },
+    { "key": "designationId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get an access token (client_credentials)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\",\n  \"grant_type\": \"client_credentials\"\n}" },
+            "url": { "raw": "{{authUrl}}/oauth2/auth", "host": ["{{authUrl}}"], "path": ["oauth2", "auth"] },
+            "description": "Exchanges client_id/client_secret for a Bearer access_token. Response includes access_token, expires_in, token_type."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizations",
+      "item": [
+        {
+          "name": "Retrieve an organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id", "host": ["{{baseUrl}}"], "path": ["organizations", ":id"], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Retrieves an organization by ID."
+          }
+        },
+        {
+          "name": "List an organization's campaigns",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id/campaigns", "host": ["{{baseUrl}}"], "path": ["organizations", ":id", "campaigns"], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Lists campaigns belonging to an organization."
+          }
+        },
+        {
+          "name": "List an organization's transactions (with items)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id/transactions?with=items", "host": ["{{baseUrl}}"], "path": ["organizations", ":id", "transactions"], "query": [{ "key": "with", "value": "items" }], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Lists an organization's transactions, eager-loading line items via ?with=items."
+          }
+        },
+        {
+          "name": "List an organization's supporters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id/supporters", "host": ["{{baseUrl}}"], "path": ["organizations", ":id", "supporters"], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Lists an organization's supporter (donor/CRM) records."
+          }
+        },
+        {
+          "name": "List an organization's designations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id/designations", "host": ["{{baseUrl}}"], "path": ["organizations", ":id", "designations"], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Lists an organization's designations (funds/programs)."
+          }
+        },
+        {
+          "name": "List an organization's source tracking codes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/organizations/:id/source-tracking-codes?fundraisingTeams=true&fundraisingPages=true&transactions=true", "host": ["{{baseUrl}}"], "path": ["organizations", ":id", "source-tracking-codes"], "query": [{ "key": "fundraisingTeams", "value": "true" }, { "key": "fundraisingPages", "value": "true" }, { "key": "transactions", "value": "true" }], "variable": [{ "key": "id", "value": "{{organizationId}}" }] },
+            "description": "Lists source tracking codes attributed to an organization, matching the official Fetch Source Codes example."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "Retrieve a campaign",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Retrieves a campaign by ID."
+          }
+        },
+        {
+          "name": "Retrieve a campaign's overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/overview", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "overview"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Fundraising progress totals for a campaign."
+          }
+        },
+        {
+          "name": "Publish a campaign",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/publish", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "publish"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Publishes a campaign."
+          }
+        },
+        {
+          "name": "List a campaign's fundraising pages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/fundraising-pages", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "fundraising-pages"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Lists fundraising pages under a campaign."
+          }
+        },
+        {
+          "name": "List a campaign's fundraising teams",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/fundraising-teams", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "fundraising-teams"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Lists fundraising teams under a campaign."
+          }
+        },
+        {
+          "name": "List a campaign's transactions (with items)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/transactions?with=items", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "transactions"], "query": [{ "key": "with", "value": "items" }], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Lists a campaign's transactions with line items."
+          }
+        },
+        {
+          "name": "Create an offline transaction on a campaign",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"billing_first_name\": \"Jane\",\n  \"billing_last_name\": \"Donor\",\n  \"member_email_address\": \"jane.donor@example.com\",\n  \"status\": \"success\",\n  \"offline_payment_info\": {\n    \"payment_type\": \"check\"\n  },\n  \"items\": [\n    {\n      \"product_name\": \"General Donation\",\n      \"quantity\": 1,\n      \"raw_final_price\": 100.00,\n      \"type\": \"donation\"\n    }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/transactions", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "transactions"], "variable": [{ "key": "id", "value": "{{campaignId}}" }] },
+            "description": "Posts an offline/bulk donation transaction against a campaign, modeled on the official Bulk Offline Donations example."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fundraising Pages",
+      "item": [
+        {
+          "name": "Retrieve a fundraising page (with source tracking codes)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraising-pages/:id?with=source_tracking_codes", "host": ["{{baseUrl}}"], "path": ["fundraising-pages", ":id"], "query": [{ "key": "with", "value": "source_tracking_codes" }], "variable": [{ "key": "id", "value": "{{fundraisingPageId}}" }] },
+            "description": "Retrieves a fundraising page, eager-loading its source tracking codes."
+          }
+        },
+        {
+          "name": "Retrieve a fundraising page's overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraising-pages/:id/overview", "host": ["{{baseUrl}}"], "path": ["fundraising-pages", ":id", "overview"], "variable": [{ "key": "id", "value": "{{fundraisingPageId}}" }] },
+            "description": "Progress totals for a fundraising page."
+          }
+        },
+        {
+          "name": "Update a fundraising page",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated Page Title\",\n  \"goal\": 5000\n}" },
+            "url": { "raw": "{{baseUrl}}/fundraising-pages/:id", "host": ["{{baseUrl}}"], "path": ["fundraising-pages", ":id"], "variable": [{ "key": "id", "value": "{{fundraisingPageId}}" }] },
+            "description": "Updates a fundraising page's title and/or goal."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fundraising Teams",
+      "item": [
+        {
+          "name": "Retrieve a fundraising team (with source tracking codes)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraising-teams/:id?with=source_tracking_codes", "host": ["{{baseUrl}}"], "path": ["fundraising-teams", ":id"], "query": [{ "key": "with", "value": "source_tracking_codes" }], "variable": [{ "key": "id", "value": "{{fundraisingTeamId}}" }] },
+            "description": "Retrieves a fundraising team, eager-loading its source tracking codes."
+          }
+        },
+        {
+          "name": "Retrieve a fundraising team's overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraising-teams/:id/overview", "host": ["{{baseUrl}}"], "path": ["fundraising-teams", ":id", "overview"], "variable": [{ "key": "id", "value": "{{fundraisingTeamId}}" }] },
+            "description": "Progress totals for a fundraising team."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Retrieve a transaction (with items)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/transactions/:id?with=items", "host": ["{{baseUrl}}"], "path": ["transactions", ":id"], "query": [{ "key": "with", "value": "items" }], "variable": [{ "key": "id", "value": "{{transactionId}}" }] },
+            "description": "Retrieves a transaction with its line items, matching the official Fetch Multi-Item Order example."
+          }
+        },
+        {
+          "name": "List a transaction's acknowledgements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/transactions/:id/acknowledgements", "host": ["{{baseUrl}}"], "path": ["transactions", ":id", "acknowledgements"], "variable": [{ "key": "id", "value": "{{transactionId}}" }] },
+            "description": "Lists acknowledgements sent for a transaction."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recurring Donation Plans",
+      "item": [
+        {
+          "name": "Retrieve a recurring donation plan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/recurring-donation-plans/:id", "host": ["{{baseUrl}}"], "path": ["recurring-donation-plans", ":id"], "variable": [{ "key": "id", "value": "{{recurringDonationPlanId}}" }] },
+            "description": "Retrieves a recurring donation plan by ID."
+          }
+        },
+        {
+          "name": "List a recurring donation plan's transactions (with items)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/recurring-donation-plans/:id/transactions?with=items", "host": ["{{baseUrl}}"], "path": ["recurring-donation-plans", ":id", "transactions"], "query": [{ "key": "with", "value": "items" }], "variable": [{ "key": "id", "value": "{{recurringDonationPlanId}}" }] },
+            "description": "Lists the billing history transactions generated by a recurring donation plan."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Retrieve a member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/members/:id", "host": ["{{baseUrl}}"], "path": ["members", ":id"], "variable": [{ "key": "id", "value": "{{memberId}}" }] },
+            "description": "Retrieves a member (fundraiser/admin account) by ID."
+          }
+        },
+        {
+          "name": "List a member's fundraising pages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/members/:id/fundraising-pages", "host": ["{{baseUrl}}"], "path": ["members", ":id", "fundraising-pages"], "variable": [{ "key": "id", "value": "{{memberId}}" }] },
+            "description": "Lists fundraising pages owned by a member."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supporters",
+      "item": [
+        {
+          "name": "Retrieve a supporter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/supporters/:id", "host": ["{{baseUrl}}"], "path": ["supporters", ":id"], "variable": [{ "key": "id", "value": "{{supporterId}}" }] },
+            "description": "Retrieves a supporter (donor/CRM profile) by ID."
+          }
+        },
+        {
+          "name": "Update a supporter",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phone\": \"555-0100\"\n}" },
+            "url": { "raw": "{{baseUrl}}/supporters/:id", "host": ["{{baseUrl}}"], "path": ["supporters", ":id"], "variable": [{ "key": "id", "value": "{{supporterId}}" }] },
+            "description": "Updates a supporter's profile fields."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Designations",
+      "item": [
+        {
+          "name": "Retrieve a designation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/designations/:id", "host": ["{{baseUrl}}"], "path": ["designations", ":id"], "variable": [{ "key": "id", "value": "{{designationId}}" }] },
+            "description": "Retrieves a designation (fund/program) by ID."
+          }
+        },
+        {
+          "name": "Update a designation",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"active\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/designations/:id", "host": ["{{baseUrl}}"], "path": ["designations", ":id"], "variable": [{ "key": "id", "value": "{{designationId}}" }] },
+            "description": "Updates a designation."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,418 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Classy API (GoFundMe Pro)",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{accessToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Get an access token (client_credentials).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/oauth2/auth",
+            "body": { "type": "json", "data": "{\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\",\n  \"grant_type\": \"client_credentials\"\n}" }
+          },
+          "docs": "Exchanges client_id/client_secret for a Bearer access_token via the OAuth2 client_credentials grant."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve an organization.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." }
+            ]
+          },
+          "docs": "Retrieves an organization by ID."
+        },
+        {
+          "info": { "name": "List an organization's campaigns.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/campaigns",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." }
+            ]
+          },
+          "docs": "Lists campaigns belonging to an organization."
+        },
+        {
+          "info": { "name": "List an organization's transactions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/transactions?with=items",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." },
+              { "name": "with", "value": "items", "type": "query", "description": "Eager-load related sub-resources." }
+            ]
+          },
+          "docs": "Lists an organization's transactions, eager-loading line items via with=items."
+        },
+        {
+          "info": { "name": "List an organization's supporters.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/supporters",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." }
+            ]
+          },
+          "docs": "Lists an organization's supporter (donor/CRM) records."
+        },
+        {
+          "info": { "name": "List an organization's designations.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/designations",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." }
+            ]
+          },
+          "docs": "Lists an organization's designations (funds/programs)."
+        },
+        {
+          "info": { "name": "List an organization's source tracking codes.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/source-tracking-codes?fundraisingTeams=true&fundraisingPages=true&transactions=true",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The organization ID." }
+            ]
+          },
+          "docs": "Lists source tracking codes attributed to an organization."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a campaign.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/campaigns/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Retrieves a campaign by ID."
+        },
+        {
+          "info": { "name": "Retrieve a campaign's overview.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/campaigns/:id/overview",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Fundraising progress totals for a campaign."
+        },
+        {
+          "info": { "name": "Publish a campaign.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/campaigns/:id/publish",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Publishes a campaign."
+        },
+        {
+          "info": { "name": "List a campaign's fundraising pages.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/campaigns/:id/fundraising-pages",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Lists fundraising pages under a campaign."
+        },
+        {
+          "info": { "name": "List a campaign's fundraising teams.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/campaigns/:id/fundraising-teams",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Lists fundraising teams under a campaign."
+        },
+        {
+          "info": { "name": "List a campaign's transactions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/campaigns/:id/transactions?with=items",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ]
+          },
+          "docs": "Lists a campaign's transactions with line items."
+        },
+        {
+          "info": { "name": "Create an offline transaction on a campaign.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/campaigns/:id/transactions",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The campaign ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"billing_first_name\": \"Jane\",\n  \"billing_last_name\": \"Donor\",\n  \"member_email_address\": \"jane.donor@example.com\",\n  \"status\": \"success\",\n  \"offline_payment_info\": {\n    \"payment_type\": \"check\"\n  },\n  \"items\": [\n    {\n      \"product_name\": \"General Donation\",\n      \"quantity\": 1,\n      \"raw_final_price\": 100.00,\n      \"type\": \"donation\"\n    }\n  ]\n}" }
+          },
+          "docs": "Posts an offline/bulk donation transaction against a campaign."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fundraising Pages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a fundraising page.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-pages/:id?with=source_tracking_codes",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The fundraising page ID." }
+            ]
+          },
+          "docs": "Retrieves a fundraising page, eager-loading its source tracking codes."
+        },
+        {
+          "info": { "name": "Retrieve a fundraising page's overview.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-pages/:id/overview",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The fundraising page ID." }
+            ]
+          },
+          "docs": "Progress totals for a fundraising page."
+        },
+        {
+          "info": { "name": "Update a fundraising page.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.classy.org/2.0/fundraising-pages/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The fundraising page ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"title\": \"Updated Page Title\",\n  \"goal\": 5000\n}" }
+          },
+          "docs": "Updates a fundraising page's title and/or goal."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fundraising Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a fundraising team.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id?with=source_tracking_codes",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The fundraising team ID." }
+            ]
+          },
+          "docs": "Retrieves a fundraising team, eager-loading its source tracking codes."
+        },
+        {
+          "info": { "name": "Retrieve a fundraising team's overview.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id/overview",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The fundraising team ID." }
+            ]
+          },
+          "docs": "Progress totals for a fundraising team."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a transaction.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/transactions/:id?with=items",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The transaction ID." }
+            ]
+          },
+          "docs": "Retrieves a transaction with its line items."
+        },
+        {
+          "info": { "name": "List a transaction's acknowledgements.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/transactions/:id/acknowledgements",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The transaction ID." }
+            ]
+          },
+          "docs": "Lists acknowledgements sent for a transaction."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Recurring Donation Plans",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a recurring donation plan.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/recurring-donation-plans/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The recurring donation plan ID." }
+            ]
+          },
+          "docs": "Retrieves a recurring donation plan by ID."
+        },
+        {
+          "info": { "name": "List a recurring donation plan's transactions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/recurring-donation-plans/:id/transactions?with=items",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The recurring donation plan ID." }
+            ]
+          },
+          "docs": "Lists the billing history transactions generated by a recurring donation plan."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a member.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/members/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The member ID." }
+            ]
+          },
+          "docs": "Retrieves a member (fundraiser/admin account) by ID."
+        },
+        {
+          "info": { "name": "List a member's fundraising pages.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/members/:id/fundraising-pages",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The member ID." }
+            ]
+          },
+          "docs": "Lists fundraising pages owned by a member."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Supporters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a supporter.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/supporters/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The supporter ID." }
+            ]
+          },
+          "docs": "Retrieves a supporter (donor/CRM profile) by ID."
+        },
+        {
+          "info": { "name": "Update a supporter.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.classy.org/2.0/supporters/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The supporter ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"phone\": \"555-0100\"\n}" }
+          },
+          "docs": "Updates a supporter's profile fields."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Designations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Retrieve a designation.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/designations/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The designation ID." }
+            ]
+          },
+          "docs": "Retrieves a designation (fund/program) by ID."
+        },
+        {
+          "info": { "name": "Update a designation.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.classy.org/2.0/designations/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The designation ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"active\": true\n}" }
+          },
+          "docs": "Updates a designation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

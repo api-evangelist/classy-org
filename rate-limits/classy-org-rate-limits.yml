@@ -1,0 +1,71 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Classy
+providerId: classy-org
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Nonprofit
+- Fundraising
+- Rate Limiting
+- Quotas
+description: >-
+  Classy does not publish a fixed numeric requests-per-minute quota for the
+  api.classy.org/2.0 API. The API is fronted by the Kong API gateway
+  (confirmed via x-kong-limit, x-kong-proxy-latency, and
+  x-kong-upstream-latency response headers on the official
+  classy-org/postman-collections examples); the x-kong-limit header reports
+  a "time-consumed" value rather than a simple remaining-request count,
+  consistent with a time/latency-budget style throttling plugin rather than
+  a flat per-minute cap. Exceeding the limit returns an HTTP 429 Too Many
+  Requests response; third-party developer reports describe a retry-after
+  guidance of roughly 24 seconds. OAuth2 access tokens obtained from
+  /oauth2/auth are short-lived (expires_in observed at 7200 seconds / 2
+  hours in Classy's own Postman examples, with other integrations reporting
+  shorter 3600-second tokens) and must be refreshed by re-authenticating.
+notes: >-
+  No published per-minute or per-day numeric ceiling was found in the
+  public developer documentation as of the review date; the underlying Kong
+  gateway configuration (throttling by consumed time rather than raw
+  request count) is not published either. Treat the 429 + ~24s guidance as
+  the operative signal and implement exponential backoff with jitter.
+sources:
+- https://developers.gofundme.com/pro/overview/making-requests
+- https://developers.gofundme.com/pro/overview/authentication
+- https://support.classy.org/s/article/intro-to-the-classy-api
+- https://github.com/classy-org/postman-collections
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: application (client_id)
+  metric: requests
+  limit: not published as a fixed number
+  notes: >-
+    Enforced via a Kong gateway plugin that reports consumed time
+    (x-kong-limit: time-consumed=N) rather than a simple remaining-count
+    header.
+- name: Access Token Lifetime
+  scope: token
+  metric: seconds
+  limit: '7200'
+  notes: >-
+    Observed expires_in value in Classy's own official Postman collection
+    example response; treat as indicative, not contractually guaranteed.
+- name: Throttled Retry Guidance
+  scope: application (client_id)
+  metric: seconds
+  limit: '24'
+  notes: Third-party developer reports describe a suggested retry-after of about 24 seconds on 429 responses.
+policies:
+- name: Bearer Token Refresh
+  description: Re-POST client_id/client_secret/grant_type=client_credentials to /oauth2/auth to obtain a fresh access_token when a request fails with an invalid_token error or the token's expires_in window has elapsed.
+- name: Backoff on 429
+  description: Clients should implement exponential backoff with jitter on HTTP 429 responses rather than retrying immediately.
+- name: Pagination Discipline
+  description: List endpoints return a Laravel-style page envelope (current_page, per_page, total, next_page_url); paging deliberately through next_page_url avoids over-fetching and repeated large-page requests that are more likely to trip throttling.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
