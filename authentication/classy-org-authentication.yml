@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/classy-org-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'OAuth2 client_credentials access token obtained from POST /oauth2/auth. Passed
+    as `Authorization: Bearer {access_token}`.'
+  sources:
+  - openapi/classy-org-openapi.yml

@@ -199,6 +199,10 @@ apis:
     or campaign lets donors direct their gift toward - and list an organization's
     designations or a campaign's unassigned designations.
 common:
+- type: DomainSecurity
+  url: security/classy-org-domain-security.yml
+- type: Authentication
+  url: authentication/classy-org-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/classy-org
 - type: LinkedIn
@@ -213,6 +217,8 @@ common:
   url: rate-limits/classy-org-rate-limits.yml
 - type: FinOps
   url: finops/classy-org-finops.yml
+- type: Blog
+  url: https://pro.gofundme.com/feed/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
