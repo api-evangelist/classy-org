@@ -1,0 +1,13 @@
+{
+  "repo": "classy-org",
+  "feeds": [
+    {
+      "source": "https://www.classy.org/blog",
+      "feed_url": "https://pro.gofundme.com/feed/",
+      "title": "GoFundMe Pro",
+      "saved": 5
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 30
+}
