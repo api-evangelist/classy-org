@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: Classy API (GoFundMe Pro) Authentication Fundraising Pages API
+  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  version: '2.0'
+  contact:
+    name: Classy (GoFundMe Pro)
+    url: https://www.classy.org
+servers:
+- url: https://api.classy.org/2.0
+  description: Classy / GoFundMe Pro production API
+security:
+- bearerAuth: []
+tags:
+- name: Fundraising Pages
+  description: Individual peer-to-peer fundraising pages under a campaign.
+paths:
+  /fundraising-pages/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    - $ref: '#/components/parameters/With'
+    get:
+      operationId: getFundraisingPage
+      tags:
+      - Fundraising Pages
+      summary: Retrieve a fundraising page
+      description: Supports ?with=source_tracking_codes, confirmed against the official "Fetch Source Codes" Postman collection.
+      responses:
+        '200':
+          description: The requested fundraising page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateFundraisingPage
+      tags:
+      - Fundraising Pages
+      summary: Update a fundraising page
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundraisingPageInput'
+      responses:
+        '200':
+          description: The updated fundraising page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      operationId: deleteFundraisingPage
+      tags:
+      - Fundraising Pages
+      summary: Delete a fundraising page
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /fundraising-pages/{id}/overview:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: getFundraisingPageOverview
+      tags:
+      - Fundraising Pages
+      summary: Retrieve a fundraising page's overview
+      responses:
+        '200':
+          description: The fundraising page overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overview'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        deleted:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type: integer
+            nullable: true
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    Overview:
+      type: object
+      properties:
+        raw_goal:
+          type: number
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
+      additionalProperties: true
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        goal:
+          type: number
+        story:
+          type: string
+        member_id:
+          type: integer
+      additionalProperties: true
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth2 client_credentials access token obtained from POST /oauth2/auth. Passed as `Authorization: Bearer {access_token}`.'

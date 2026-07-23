@@ -1,0 +1,778 @@
+openapi: 3.0.3
+info:
+  title: Classy API (GoFundMe Pro) Authentication Campaigns API
+  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  version: '2.0'
+  contact:
+    name: Classy (GoFundMe Pro)
+    url: https://www.classy.org
+servers:
+- url: https://api.classy.org/2.0
+  description: Classy / GoFundMe Pro production API
+security:
+- bearerAuth: []
+tags:
+- name: Campaigns
+  description: Donation forms, peer-to-peer, crowdfunding, and event campaigns.
+paths:
+  /campaigns/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    - $ref: '#/components/parameters/With'
+    get:
+      operationId: getCampaign
+      tags:
+      - Campaigns
+      summary: Retrieve a campaign
+      responses:
+        '200':
+          description: The requested campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCampaign
+      tags:
+      - Campaigns
+      summary: Update a campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignInput'
+      responses:
+        '200':
+          description: The updated campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /campaigns/{id}/overview:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: getCampaignOverview
+      tags:
+      - Campaigns
+      summary: Retrieve a campaign's fundraising overview
+      description: Progress totals - raised amount, goal, donor count - for a campaign.
+      responses:
+        '200':
+          description: The campaign overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overview'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/publish:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: publishCampaign
+      tags:
+      - Campaigns
+      summary: Publish a campaign
+      responses:
+        '200':
+          description: The published campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/unpublish:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: unpublishCampaign
+      tags:
+      - Campaigns
+      summary: Unpublish a campaign
+      responses:
+        '200':
+          description: The unpublished campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/deactivate:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: deactivateCampaign
+      tags:
+      - Campaigns
+      summary: Deactivate a campaign
+      responses:
+        '200':
+          description: The deactivated campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/fundraising-pages:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    - $ref: '#/components/parameters/With'
+    get:
+      operationId: listCampaignFundraisingPages
+      tags:
+      - Campaigns
+      summary: List a campaign's fundraising pages
+      responses:
+        '200':
+          description: A paginated list of fundraising pages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingPagePage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCampaignFundraisingPage
+      tags:
+      - Campaigns
+      summary: Create a fundraising page under a campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundraisingPageInput'
+      responses:
+        '200':
+          description: The created fundraising page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /campaigns/{id}/fundraising-teams:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listCampaignFundraisingTeams
+      tags:
+      - Campaigns
+      summary: List a campaign's fundraising teams
+      responses:
+        '200':
+          description: A paginated list of fundraising teams.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingTeamPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCampaignFundraisingTeam
+      tags:
+      - Campaigns
+      summary: Create a fundraising team under a campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundraisingTeamInput'
+      responses:
+        '200':
+          description: The created fundraising team.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingTeam'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /campaigns/{id}/designations:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listCampaignDesignations
+      tags:
+      - Campaigns
+      summary: List a campaign's designations
+      responses:
+        '200':
+          description: A paginated list of designations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesignationPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/unassigned-designations:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listCampaignUnassignedDesignations
+      tags:
+      - Campaigns
+      summary: List a campaign's unassigned designations
+      responses:
+        '200':
+          description: A paginated list of designations not assigned to a fundraising page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesignationPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /campaigns/{id}/transactions:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    - $ref: '#/components/parameters/With'
+    get:
+      operationId: listCampaignTransactions
+      tags:
+      - Campaigns
+      summary: List a campaign's transactions
+      responses:
+        '200':
+          description: A paginated list of transactions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCampaignTransaction
+      tags:
+      - Campaigns
+      summary: Create a transaction on a campaign (offline / bulk donations)
+      description: Posts an offline donation transaction against a campaign, as used by the official "Bulk Offline Donations" Postman collection for CSV/JSON batch imports.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfflineTransactionInput'
+      responses:
+        '200':
+          description: The created transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /campaigns/{id}/source-tracking-codes:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    - name: fundraisingTeams
+      in: query
+      schema:
+        type: boolean
+    - name: fundraisingPages
+      in: query
+      schema:
+        type: boolean
+    - name: transactions
+      in: query
+      schema:
+        type: boolean
+    get:
+      operationId: listCampaignSourceTrackingCodes
+      tags:
+      - Campaigns
+      summary: List a campaign's source tracking codes
+      responses:
+        '200':
+          description: A list of source tracking codes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SourceTrackingCode'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    TransactionItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        transaction_id:
+          type: integer
+        type:
+          type: string
+          description: e.g. donation, ticket, merchandise, fee.
+        donation_gross_amount:
+          type: number
+        donation_net_amount:
+          type: number
+        campaign_id:
+          type: integer
+        fundraising_page_id:
+          type: integer
+          nullable: true
+        organization_id:
+          type: integer
+        raw_final_price:
+          type: number
+        currency_code:
+          type: string
+        promo_code_id:
+          type: integer
+          nullable: true
+      additionalProperties: true
+    DesignationInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+      additionalProperties: true
+    Overview:
+      type: object
+      properties:
+        raw_goal:
+          type: number
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
+      additionalProperties: true
+    FundraisingTeam:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingTeamInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    SourceTrackingCode:
+      type: object
+      description: Confirmed against the official "Fetch Source Codes" Postman collection example.
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        code:
+          type: string
+        source:
+          type: string
+        medium:
+          type: string
+        fundraising_teams:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        fundraising_pages:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        transactions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    FundraisingTeamPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingTeam'
+    DesignationPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Designation'
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
+    Designation:
+      allOf:
+      - $ref: '#/components/schemas/DesignationInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          campaign_id:
+            type: integer
+            nullable: true
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    CampaignInput:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
+        goal:
+          type: number
+        currency_code:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    Transaction:
+      type: object
+      description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        organization_id:
+          type: integer
+        fundraising_page_id:
+          type: integer
+          nullable: true
+        fundraising_team_id:
+          type: integer
+          nullable: true
+        supporter_id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - success
+          - pending
+          - failed
+          - refunded
+        billing_first_name:
+          type: string
+        billing_last_name:
+          type: string
+        billing_address1:
+          type: string
+        billing_city:
+          type: string
+        billing_state:
+          type: string
+        billing_postal_code:
+          type: string
+        billing_country:
+          type: string
+        card_type:
+          type: string
+        card_last_four:
+          type: integer
+        charged_at:
+          type: string
+          format: date-time
+        charged_currency_code:
+          type: string
+        charged_total_gross_amount:
+          type: number
+        classy_fees_amount:
+          type: number
+        total_gross_amount:
+          type: number
+        comment:
+          type: string
+        acknowledgements_count:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionItem'
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    FundraisingTeamInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        goal:
+          type: number
+        parent_team_id:
+          type: integer
+          nullable: true
+      additionalProperties: true
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type: integer
+            nullable: true
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    Campaign:
+      allOf:
+      - $ref: '#/components/schemas/CampaignInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          status:
+            type: string
+          raw_current_raised_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        goal:
+          type: number
+        story:
+          type: string
+        member_id:
+          type: integer
+      additionalProperties: true
+    TransactionPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transaction'
+    PaginationEnvelope:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        first_page_url:
+          type: string
+        from:
+          type: integer
+        last_page:
+          type: integer
+        last_page_url:
+          type: string
+        next_page_url:
+          type: string
+          nullable: true
+        path:
+          type: string
+        per_page:
+          type: integer
+        prev_page_url:
+          type: string
+          nullable: true
+        to:
+          type: integer
+        total:
+          type: integer
+    OfflineTransactionInput:
+      type: object
+      description: Modeled on the official classy-org/postman-collections "Bulk Offline Donations" example bodies (Offline Transaction CSV / JSON).
+      required:
+      - billing_first_name
+      - billing_last_name
+      - items
+      - offline_payment_info
+      properties:
+        billing_address1:
+          type: string
+        billing_address2:
+          type: string
+        billing_city:
+          type: string
+        billing_country:
+          type: string
+        billing_first_name:
+          type: string
+        billing_last_name:
+          type: string
+        billing_postal_code:
+          type: string
+        billing_state:
+          type: string
+        member_email_address:
+          type: string
+          format: email
+        member_name:
+          type: string
+        member_phone:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+          - pending
+          - failed
+        offline_payment_info:
+          type: object
+          properties:
+            payment_type:
+              type: string
+              description: e.g. cash, check, in_kind.
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_name:
+                type: string
+              quantity:
+                type: integer
+              raw_final_price:
+                type: number
+              type:
+                type: string
+                description: e.g. donation, ticket, merchandise.
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth2 client_credentials access token obtained from POST /oauth2/auth. Passed as `Authorization: Bearer {access_token}`.'

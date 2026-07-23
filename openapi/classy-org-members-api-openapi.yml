@@ -1,0 +1,248 @@
+openapi: 3.0.3
+info:
+  title: Classy API (GoFundMe Pro) Authentication Members API
+  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  version: '2.0'
+  contact:
+    name: Classy (GoFundMe Pro)
+    url: https://www.classy.org
+servers:
+- url: https://api.classy.org/2.0
+  description: Classy / GoFundMe Pro production API
+security:
+- bearerAuth: []
+tags:
+- name: Members
+  description: The account behind a fundraiser, admin, or donor.
+paths:
+  /members/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: getMember
+      tags:
+      - Members
+      summary: Retrieve a member
+      responses:
+        '200':
+          description: The requested member.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /members/{id}/fundraising-pages:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listMemberFundraisingPages
+      tags:
+      - Members
+      summary: List a member's fundraising pages
+      responses:
+        '200':
+          description: A paginated list of fundraising pages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundraisingPagePage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /members/{id}/recurring-donation-plans:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listMemberRecurringDonationPlans
+      tags:
+      - Members
+      summary: List a member's recurring donation plans
+      responses:
+        '200':
+          description: A paginated list of recurring donation plans.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringDonationPlanPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
+  schemas:
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_address:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    RecurringDonationPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        member_id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - active
+          - paused
+          - cancelled
+        frequency:
+          type: string
+          description: e.g. monthly, weekly, annually.
+        raw_amount:
+          type: number
+        currency_code:
+          type: string
+        next_charge_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type: integer
+            nullable: true
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        goal:
+          type: number
+        story:
+          type: string
+        member_id:
+          type: integer
+      additionalProperties: true
+    RecurringDonationPlanPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecurringDonationPlan'
+    PaginationEnvelope:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        first_page_url:
+          type: string
+        from:
+          type: integer
+        last_page:
+          type: integer
+        last_page_url:
+          type: string
+        next_page_url:
+          type: string
+          nullable: true
+        path:
+          type: string
+        per_page:
+          type: integer
+        prev_page_url:
+          type: string
+          nullable: true
+        to:
+          type: integer
+        total:
+          type: integer
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth2 client_credentials access token obtained from POST /oauth2/auth. Passed as `Authorization: Bearer {access_token}`.'

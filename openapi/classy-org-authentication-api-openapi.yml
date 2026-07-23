@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Classy API (GoFundMe Pro) Authentication API
+  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  version: '2.0'
+  contact:
+    name: Classy (GoFundMe Pro)
+    url: https://www.classy.org
+servers:
+- url: https://api.classy.org/2.0
+  description: Classy / GoFundMe Pro production API
+security:
+- bearerAuth: []
+tags:
+- name: Authentication
+  description: OAuth2 client credentials token exchange.
+paths:
+  /oauth2/auth:
+    post:
+      operationId: authenticate
+      tags:
+      - Authentication
+      summary: Exchange client credentials for an access token
+      description: Exchanges a client_id and client_secret for a Bearer access token using the client_credentials grant. Tokens expire after expires_in seconds and must be refreshed by calling this endpoint again.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: A new access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Missing or invalid client_id / client_secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AuthRequest:
+      type: object
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+          - password
+          - refresh_token
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds (observed value 7200 in Classy's own examples).
+        queries_log:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        token_type:
+          type: string
+          example: bearer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth2 client_credentials access token obtained from POST /oauth2/auth. Passed as `Authorization: Bearer {access_token}`.'
