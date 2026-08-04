@@ -1,0 +1,32 @@
+{
+  "provider": "classy-org",
+  "sources": [
+    "classy-org-authentication-api-openapi.yml",
+    "classy-org-campaigns-api-openapi.yml",
+    "classy-org-designations-api-openapi.yml",
+    "classy-org-fundraising-pages-api-openapi.yml",
+    "classy-org-fundraising-teams-api-openapi.yml",
+    "classy-org-members-api-openapi.yml",
+    "classy-org-organizations-api-openapi.yml",
+    "classy-org-recurring-donation-plans-api-openapi.yml",
+    "classy-org-supporters-api-openapi.yml",
+    "classy-org-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "classy-org-authentication-api-openapi.yml",
+    "classy-org-campaigns-api-openapi.yml",
+    "classy-org-designations-api-openapi.yml",
+    "classy-org-fundraising-pages-api-openapi.yml",
+    "classy-org-fundraising-teams-api-openapi.yml",
+    "classy-org-members-api-openapi.yml",
+    "classy-org-organizations-api-openapi.yml",
+    "classy-org-recurring-donation-plans-api-openapi.yml",
+    "classy-org-supporters-api-openapi.yml",
+    "classy-org-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
