@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Classy API (GoFundMe Pro) Authentication Fundraising Teams API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fundraising Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a fundraising team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ]
+          },
+          "docs": "Supports ?with=source_tracking_codes, confirmed against the official \"Fetch Source Codes\" Postman collection."
+        },
+        {
+          "info": {
+            "name": "Update a fundraising team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a fundraising team"
+        },
+        {
+          "info": {
+            "name": "Delete a fundraising team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ]
+          },
+          "docs": "Delete a fundraising team"
+        },
+        {
+          "info": {
+            "name": "Retrieve a fundraising team's overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id/overview",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve a fundraising team's overview"
+        },
+        {
+          "info": {
+            "name": "Create a member fundraising page under a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/fundraising-teams/:id/fundraising-pages",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a member fundraising page under a team"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

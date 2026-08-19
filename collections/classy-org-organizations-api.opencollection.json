@@ -1,0 +1,284 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Classy API (GoFundMe Pro) Authentication Organizations API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve an organization"
+        },
+        {
+          "info": {
+            "name": "List an organization's campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/campaigns",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ]
+          },
+          "docs": "List an organization's campaigns"
+        },
+        {
+          "info": {
+            "name": "Create a campaign for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/organizations/:id/campaigns",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a campaign for an organization"
+        },
+        {
+          "info": {
+            "name": "List an organization's designations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/designations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "List an organization's designations"
+        },
+        {
+          "info": {
+            "name": "Create a designation for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/organizations/:id/designations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a designation for an organization"
+        },
+        {
+          "info": {
+            "name": "List an organization's fundraising pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/fundraising-pages",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ]
+          },
+          "docs": "List an organization's fundraising pages"
+        },
+        {
+          "info": {
+            "name": "List an organization's supporters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/supporters",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "List an organization's supporters"
+        },
+        {
+          "info": {
+            "name": "Create a supporter for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.classy.org/2.0/organizations/:id/supporters",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a supporter for an organization"
+        },
+        {
+          "info": {
+            "name": "List an organization's transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/transactions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+              }
+            ]
+          },
+          "docs": "Supports ?with=items to eager-load transaction line items, matching the official \"Fetch Multi-Item Order\" Postman collection example."
+        },
+        {
+          "info": {
+            "name": "List an organization's recurring donation plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/recurring-donation-plans",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "List an organization's recurring donation plans"
+        },
+        {
+          "info": {
+            "name": "List an organization's source tracking codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/organizations/:id/source-tracking-codes",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              },
+              {
+                "name": "fundraisingTeams",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fundraisingPages",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "transactions",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Confirmed against the official classy-org/postman-collections \"Fetch Source Codes\" example. Optional flags control whether fundraising teams, fundraising pages, and transactions attributed to each code are included."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

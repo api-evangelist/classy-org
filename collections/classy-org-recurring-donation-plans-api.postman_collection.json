@@ -1,0 +1,700 @@
+{
+  "item": [
+    {
+      "id": "b8de0a00-62e7-4fb9-96a0-448a8817317b",
+      "name": "Recurring Donation Plans",
+      "description": {
+        "content": "Sustainer / recurring donation subscriptions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3a0fc069-36a5-46b6-a5b5-4f695e7d1849",
+          "name": "Retrieve a recurring donation plan",
+          "request": {
+            "name": "Retrieve a recurring donation plan",
+            "description": {},
+            "url": {
+              "path": [
+                "recurring-donation-plans",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) The numeric ID of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cffe7b65-611b-4010-a3e8-3c502c20429c",
+              "name": "The requested recurring donation plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3490,\n  \"campaign_id\": 7497,\n  \"member_id\": 5932,\n  \"status\": \"paused\",\n  \"frequency\": \"string\",\n  \"raw_amount\": 5857.510978423263,\n  \"currency_code\": \"string\",\n  \"next_charge_date\": \"2016-05-09\",\n  \"created_at\": \"2010-11-29T14:50:16.368Z\",\n  \"updated_at\": \"1992-11-05T07:29:10.652Z\",\n  \"key_0\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6048cdd0-fd6b-4d66-b9f6-6519bebcb04e",
+              "name": "Missing, invalid, or expired Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5527f682-b7f8-41a8-adcd-f8a7f2fe921c",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7116a9a6-16a1-4aa3-bc80-e8164018a3f5",
+          "name": "Update a recurring donation plan",
+          "request": {
+            "name": "Update a recurring donation plan",
+            "description": {},
+            "url": {
+              "path": [
+                "recurring-donation-plans",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) The numeric ID of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": 8889.146991629194\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5a7a029b-c251-435b-925a-11041307c3ea",
+              "name": "The updated recurring donation plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3490,\n  \"campaign_id\": 7497,\n  \"member_id\": 5932,\n  \"status\": \"paused\",\n  \"frequency\": \"string\",\n  \"raw_amount\": 5857.510978423263,\n  \"currency_code\": \"string\",\n  \"next_charge_date\": \"2016-05-09\",\n  \"created_at\": \"2010-11-29T14:50:16.368Z\",\n  \"updated_at\": \"1992-11-05T07:29:10.652Z\",\n  \"key_0\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "724575fd-2dbd-4932-a6da-6511db72472d",
+              "name": "Missing, invalid, or expired Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0fc148b-ebef-4968-9a86-b4ffb686c7d5",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "381c84ed-da39-40ac-98c2-179e96793d54",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "619a06fc-a412-432b-9bba-fd437be004b8",
+          "name": "List a recurring donation plan's transactions",
+          "request": {
+            "name": "List a recurring donation plan's transactions",
+            "description": {
+              "content": "Supports ?with=items, confirmed against the official \"Fetch Multi-Item Order\" Postman collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recurring-donation-plans",
+                ":id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "with",
+                  "value": "<string>",
+                  "description": "Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) The numeric ID of the resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1e71905a-1d8e-48ba-a41f-58f347f70f9d",
+              "name": "A paginated list of transactions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "with",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"current_page\": 5751,\n  \"first_page_url\": \"string\",\n  \"from\": 599,\n  \"last_page\": 9452,\n  \"last_page_url\": \"string\",\n  \"next_page_url\": \"string\",\n  \"path\": \"string\",\n  \"per_page\": 8515,\n  \"prev_page_url\": \"string\",\n  \"to\": 8899,\n  \"total\": 8236,\n  \"data\": [\n    {\n      \"id\": 2781,\n      \"campaign_id\": 5384,\n      \"organization_id\": 749,\n      \"fundraising_page_id\": 7420,\n      \"fundraising_team_id\": 6629,\n      \"supporter_id\": 2181,\n      \"status\": \"success\",\n      \"billing_first_name\": \"string\",\n      \"billing_last_name\": \"string\",\n      \"billing_address1\": \"string\",\n      \"billing_city\": \"string\",\n      \"billing_state\": \"string\",\n      \"billing_postal_code\": \"string\",\n      \"billing_country\": \"string\",\n      \"card_type\": \"string\",\n      \"card_last_four\": 6359,\n      \"charged_at\": \"1971-10-07T16:22:27.378Z\",\n      \"charged_currency_code\": \"string\",\n      \"charged_total_gross_amount\": 5499.190282130625,\n      \"classy_fees_amount\": 3377.4326205597026,\n      \"total_gross_amount\": 7354.136284671581,\n      \"comment\": \"string\",\n      \"acknowledgements_count\": 3335,\n      \"items\": [\n        {\n          \"id\": 1496,\n          \"transaction_id\": 4541,\n          \"type\": \"string\",\n          \"donation_gross_amount\": 9665.388441570503,\n          \"donation_net_amount\": 7429.76059984234,\n          \"campaign_id\": 2323,\n          \"fundraising_page_id\": 9427,\n          \"organization_id\": 440,\n          \"raw_final_price\": 8997.062681418252,\n          \"currency_code\": \"string\",\n          \"promo_code_id\": 1857\n        },\n        {\n          \"id\": 2267,\n          \"transaction_id\": 3542,\n          \"type\": \"string\",\n          \"donation_gross_amount\": 6817.0084965493115,\n          \"donation_net_amount\": 3510.277209943411,\n          \"campaign_id\": 6853,\n          \"fundraising_page_id\": 1625,\n          \"organization_id\": 4853,\n          \"raw_final_price\": 5182.725515736948,\n          \"currency_code\": \"string\",\n          \"promo_code_id\": 1139,\n          \"key_0\": 1714\n        }\n      ],\n      \"updated_at\": \"1995-08-18T11:08:43.350Z\"\n    },\n    {\n      \"id\": 6934,\n      \"campaign_id\": 5329,\n      \"organization_id\": 1808,\n      \"fundraising_page_id\": 6829,\n      \"fundraising_team_id\": 6865,\n      \"supporter_id\": 1381,\n      \"status\": \"refunded\",\n      \"billing_first_name\": \"string\",\n      \"billing_last_name\": \"string\",\n      \"billing_address1\": \"string\",\n      \"billing_city\": \"string\",\n      \"billing_state\": \"string\",\n      \"billing_postal_code\": \"string\",\n      \"billing_country\": \"string\",\n      \"card_type\": \"string\",\n      \"card_last_four\": 7826,\n      \"charged_at\": \"2004-11-07T16:56:15.578Z\",\n      \"charged_currency_code\": \"string\",\n      \"charged_total_gross_amount\": 2949.2932500203815,\n      \"classy_fees_amount\": 423.3309620896697,\n      \"total_gross_amount\": 531.412060255364,\n      \"comment\": \"string\",\n      \"acknowledgements_count\": 9628,\n      \"items\": [\n        {\n          \"id\": 9527,\n          \"transaction_id\": 1545,\n          \"type\": \"string\",\n          \"donation_gross_amount\": 4641.192504315442,\n          \"donation_net_amount\": 4501.077366342339,\n          \"campaign_id\": 1944,\n          \"fundraising_page_id\": 8486,\n          \"organization_id\": 4628,\n          \"raw_final_price\": 6341.331899422982,\n          \"currency_code\": \"string\",\n          \"promo_code_id\": 4306\n        },\n        {\n          \"id\": 7013,\n          \"transaction_id\": 7662,\n          \"type\": \"string\",\n          \"donation_gross_amount\": 6178.930330487567,\n          \"donation_net_amount\": 9754.894838402563,\n          \"campaign_id\": 4387,\n          \"fundraising_page_id\": 5293,\n          \"organization_id\": 6909,\n          \"raw_final_price\": 2873.0659967385795,\n          \"currency_code\": \"string\",\n          \"promo_code_id\": 1986\n        }\n      ],\n      \"updated_at\": \"1980-07-10T19:03:45.381Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50defdcc-1bb9-4c57-9240-5734ea865c63",
+              "name": "Missing, invalid, or expired Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recurring-donation-plans",
+                    ":id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "with",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) The numeric ID of the resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\",\n  \"permissions\": [\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    },\n    {\n      \"action\": \"string\",\n      \"entity\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.classy.org/2.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e45ae846-e60c-4476-a5cd-d4cdcc19241b",
+    "name": "Classy API (GoFundMe Pro) Authentication Recurring Donation Plans API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node's src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.\n\nContact Support:\n Name: Classy (GoFundMe Pro)",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Classy API (GoFundMe Pro) Authentication Designations API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Designations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a designation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/designations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve a designation"
+        },
+        {
+          "info": {
+            "name": "Update a designation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.classy.org/2.0/designations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a designation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

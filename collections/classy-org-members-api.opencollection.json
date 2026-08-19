@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Classy API (GoFundMe Pro) Authentication Members API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a member",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/members/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve a member"
+        },
+        {
+          "info": {
+            "name": "List a member's fundraising pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/members/:id/fundraising-pages",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "List a member's fundraising pages"
+        },
+        {
+          "info": {
+            "name": "List a member's recurring donation plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.classy.org/2.0/members/:id/recurring-donation-plans",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the resource."
+              }
+            ]
+          },
+          "docs": "List a member's recurring donation plans"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
