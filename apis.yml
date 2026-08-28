@@ -11,6 +11,18 @@ description: Classy is an online fundraising platform for nonprofits - donation
   the underlying software, the api.classy.org/2.0 REST API, and the developer
   docs (developers.classy.org, now redirecting to developers.gofundme.com/pro)
   continue to operate under the GoFundMe Pro banner.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
