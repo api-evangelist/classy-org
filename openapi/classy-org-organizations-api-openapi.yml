@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Classy API (GoFundMe Pro) Authentication Organizations API
-  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  title: Classy API (GoFundMe Pro) Organizations API
+  description: The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro).
   version: '2.0'
   contact:
     name: Classy (GoFundMe Pro)
@@ -256,47 +256,6 @@ components:
         phone:
           type: string
       additionalProperties: true
-    TransactionItem:
-      type: object
-      properties:
-        id:
-          type: integer
-        transaction_id:
-          type: integer
-        type:
-          type: string
-          description: e.g. donation, ticket, merchandise, fee.
-        donation_gross_amount:
-          type: number
-        donation_net_amount:
-          type: number
-        campaign_id:
-          type: integer
-        fundraising_page_id:
-          type: integer
-          nullable: true
-        organization_id:
-          type: integer
-        raw_final_price:
-          type: number
-        currency_code:
-          type: string
-        promo_code_id:
-          type: integer
-          nullable: true
-      additionalProperties: true
-    DesignationInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        active:
-          type: boolean
-      additionalProperties: true
     RecurringDonationPlan:
       type: object
       properties:
@@ -329,18 +288,21 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    Supporter:
+    Designation:
       allOf:
-      - $ref: '#/components/schemas/SupporterInput'
+      - $ref: '#/components/schemas/DesignationInput'
       - type: object
         properties:
           id:
             type: integer
           organization_id:
             type: integer
-          member_id:
-            type: integer
-            nullable: true
+          campaign_id:
+            type:
+            - integer
+            - 'null'
+          raw_current_amount:
+            type: number
           created_at:
             type: string
             format: date-time
@@ -356,37 +318,7 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Campaign'
-    SourceTrackingCode:
-      type: object
-      description: Confirmed against the official "Fetch Source Codes" Postman collection example.
-      properties:
-        id:
-          type: integer
-        campaign_id:
-          type: integer
-        code:
-          type: string
-        source:
-          type: string
-        medium:
-          type: string
-        fundraising_teams:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        fundraising_pages:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        transactions:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-      additionalProperties: true
-    DesignationPage:
+    TransactionPage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -394,28 +326,43 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/Designation'
-    FundraisingPagePage:
+              $ref: '#/components/schemas/Transaction'
+    Campaign:
       allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingPage'
-    Designation:
-      allOf:
-      - $ref: '#/components/schemas/DesignationInput'
+      - $ref: '#/components/schemas/CampaignInput'
       - type: object
         properties:
           id:
             type: integer
           organization_id:
             type: integer
+          status:
+            type: string
+          raw_current_raised_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
           campaign_id:
             type: integer
-            nullable: true
+          fundraising_team_id:
+            type:
+            - integer
+            - 'null'
+          status:
+            type: string
+          url:
+            type: string
           raw_current_amount:
             type: number
           created_at:
@@ -424,53 +371,6 @@ components:
           updated_at:
             type: string
             format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
-    RecurringDonationPlanPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/RecurringDonationPlan'
-    CampaignInput:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
-        goal:
-          type: number
-        currency_code:
-          type: string
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
-          type: string
-          format: date-time
-      additionalProperties: true
     Transaction:
       type: object
       description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
@@ -482,11 +382,13 @@ components:
         organization_id:
           type: integer
         fundraising_page_id:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         fundraising_team_id:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         supporter_id:
           type: integer
         status:
@@ -537,49 +439,94 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    FundraisingPage:
+    CampaignInput:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
+        goal:
+          type: number
+        currency_code:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    SupporterPage:
       allOf:
-      - $ref: '#/components/schemas/FundraisingPageInput'
+      - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
         properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          fundraising_team_id:
-            type: integer
-            nullable: true
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    Campaign:
-      allOf:
-      - $ref: '#/components/schemas/CampaignInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          organization_id:
-            type: integer
-          status:
-            type: string
-          raw_current_raised_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Supporter'
+    TransactionItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        transaction_id:
+          type: integer
+        type:
+          type: string
+          description: e.g. donation, ticket, merchandise, fee.
+        donation_gross_amount:
+          type: number
+        donation_net_amount:
+          type: number
+        campaign_id:
+          type: integer
+        fundraising_page_id:
+          type:
+          - integer
+          - 'null'
+        organization_id:
+          type: integer
+        raw_final_price:
+          type: number
+        currency_code:
+          type: string
+        promo_code_id:
+          type:
+          - integer
+          - 'null'
+      additionalProperties: true
+    DesignationInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+      additionalProperties: true
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        goal:
+          type: number
+        story:
+          type: string
+        member_id:
+          type: integer
+      additionalProperties: true
     Organization:
       type: object
       properties:
@@ -600,21 +547,7 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    FundraisingPageInput:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        goal:
-          type: number
-        story:
-          type: string
-        member_id:
-          type: integer
-      additionalProperties: true
-    SupporterPage:
+    DesignationPage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -622,7 +555,35 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/Supporter'
+              $ref: '#/components/schemas/Designation'
+    Supporter:
+      allOf:
+      - $ref: '#/components/schemas/SupporterInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          member_id:
+            type:
+            - integer
+            - 'null'
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    RecurringDonationPlanPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecurringDonationPlan'
     PaginationEnvelope:
       type: object
       properties:
@@ -637,20 +598,68 @@ components:
         last_page_url:
           type: string
         next_page_url:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         path:
           type: string
         per_page:
           type: integer
         prev_page_url:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         to:
           type: integer
         total:
           type: integer
-    TransactionPage:
+    SourceTrackingCode:
+      type: object
+      description: Confirmed against the official "Fetch Source Codes" Postman collection example.
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        code:
+          type: string
+        source:
+          type: string
+        medium:
+          type: string
+        fundraising_teams:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        fundraising_pages:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        transactions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    FundraisingPagePage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -658,10 +667,10 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/Transaction'
+              $ref: '#/components/schemas/FundraisingPage'
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
@@ -672,20 +681,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
-    With:
-      name: with
-      in: query
-      required: false
-      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
-      schema:
-        type: string
     Id:
       name: id
       in: path
@@ -693,6 +695,13 @@ components:
       description: The numeric ID of the resource.
       schema:
         type: integer
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

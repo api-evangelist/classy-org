@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Classy API (GoFundMe Pro) Authentication Designations API
-  description: 'The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro). It exposes Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, among other resources, under a versioned base path (https://api.classy.org/2.0). Authentication uses OAuth2 client credentials: POST client_id/client_secret/grant_type as a JSON body to /oauth2/auth to receive a Bearer access_token. List endpoints return a Laravel-style pagination envelope (current_page, data, per_page, total, next_page_url, etc.) and support a `with` query parameter to eager-load related sub-resources (for example ?with=items or ?with=source_tracking_codes). This document models the endpoints confirmed against the official classy-org/classy-node resource map and the official classy-org/postman-collections examples; the full resource surface is broader (52+ resource types) and is documented in full only behind Classy/GoFundMe Pro developer credentials. Endpoint coverage: endpointsConfirmed - a curated set of the most-used endpoints across Organizations, Campaigns, Fundraising Pages, Fundraising Teams, Transactions, Recurring Donation Plans, Members, Supporters, and Designations, grounded in classy-org/classy-node''s src/resources.json and classy-org/postman-collections examples. endpointsModeled - request/response shapes for those endpoints, inferred from the Postman collection example bodies (field names, types, and the pagination envelope) since Classy does not publish a machine-readable OpenAPI/Swagger document.'
+  title: Classy API (GoFundMe Pro) Designations API
+  description: The Classy API is a resource-oriented REST API for the Classy online fundraising platform (rebranding to GoFundMe Pro).
   version: '2.0'
   contact:
     name: Classy (GoFundMe Pro)
@@ -59,31 +59,7 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The numeric ID of the resource.
-      schema:
-        type: integer
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
     DesignationInput:
       type: object
       required:
@@ -106,8 +82,9 @@ components:
           organization_id:
             type: integer
           campaign_id:
-            type: integer
-            nullable: true
+            type:
+            - integer
+            - 'null'
           raw_current_amount:
             type: number
           created_at:
@@ -116,6 +93,30 @@ components:
           updated_at:
             type: string
             format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
   responses:
     ValidationError:
       description: The request payload failed validation.
@@ -123,14 +124,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
       content:
         application/json:
           schema:

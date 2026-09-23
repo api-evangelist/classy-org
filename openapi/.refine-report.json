@@ -1,16 +1,7 @@
 {
   "provider": "classy-org",
   "sources": [
-    "classy-org-authentication-api-openapi.yml",
-    "classy-org-campaigns-api-openapi.yml",
-    "classy-org-designations-api-openapi.yml",
-    "classy-org-fundraising-pages-api-openapi.yml",
-    "classy-org-fundraising-teams-api-openapi.yml",
-    "classy-org-members-api-openapi.yml",
-    "classy-org-organizations-api-openapi.yml",
-    "classy-org-recurring-donation-plans-api-openapi.yml",
-    "classy-org-supporters-api-openapi.yml",
-    "classy-org-transactions-api-openapi.yml"
+    "_original/classy-org-openapi.yml"
   ],
   "outputs": [
     "classy-org-authentication-api-openapi.yml",
@@ -27,6 +18,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "classy-org-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "classy-org-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-designations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-fundraising-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-fundraising-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-members-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-recurring-donation-plans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-supporters-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "classy-org-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
