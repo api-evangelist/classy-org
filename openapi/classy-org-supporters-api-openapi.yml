@@ -60,19 +60,6 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
-    SupporterInput:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email_address:
-          type: string
-          format: email
-        phone:
-          type: string
-      additionalProperties: true
     Supporter:
       allOf:
       - $ref: '#/components/schemas/SupporterInput'
@@ -92,6 +79,19 @@ components:
           updated_at:
             type: string
             format: date-time
+    SupporterInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_address:
+          type: string
+          format: email
+        phone:
+          type: string
+      additionalProperties: true
     Error:
       type: object
       properties:
@@ -123,14 +123,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:

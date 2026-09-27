@@ -70,6 +70,59 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    RecurringDonationPlanPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecurringDonationPlan'
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type:
+            - integer
+            - 'null'
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_address:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
     RecurringDonationPlan:
       type: object
       properties:
@@ -102,34 +155,6 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    Member:
-      type: object
-      properties:
-        id:
-          type: integer
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email_address:
-          type: string
-          format: email
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      additionalProperties: true
-    FundraisingPagePage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingPage'
     FundraisingPageInput:
       type: object
       required:
@@ -144,56 +169,6 @@ components:
         member_id:
           type: integer
       additionalProperties: true
-    FundraisingPage:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingPageInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          fundraising_team_id:
-            type:
-            - integer
-            - 'null'
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    RecurringDonationPlanPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/RecurringDonationPlan'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
     PaginationEnvelope:
       type: object
       properties:
@@ -223,6 +198,31 @@ components:
           type: integer
         total:
           type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
   parameters:
     Id:
       name: id
@@ -232,14 +232,14 @@ components:
       schema:
         type: integer
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:

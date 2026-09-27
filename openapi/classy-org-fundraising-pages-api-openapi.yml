@@ -94,28 +94,41 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        deleted:
-          type: boolean
-    FundraisingPageInput:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        goal:
-          type: number
-        story:
-          type: string
-        member_id:
-          type: integer
-      additionalProperties: true
     FundraisingPage:
       allOf:
       - $ref: '#/components/schemas/FundraisingPageInput'
@@ -141,6 +154,39 @@ components:
           updated_at:
             type: string
             format: date-time
+    Overview:
+      type: object
+      properties:
+        raw_goal:
+          type: number
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
+      additionalProperties: true
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        goal:
+          type: number
+        story:
+          type: string
+        member_id:
+          type: integer
+      additionalProperties: true
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -157,52 +203,6 @@ components:
                 type: string
               entity:
                 type: string
-    Overview:
-      type: object
-      properties:
-        raw_goal:
-          type: number
-        raw_total_raised:
-          type: number
-        donor_count:
-          type: integer
-        currency_code:
-          type: string
-      additionalProperties: true
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The numeric ID of the resource.
-      schema:
-        type: integer
-    With:
-      name: with
-      in: query
-      required: false
-      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

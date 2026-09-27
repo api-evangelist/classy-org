@@ -60,18 +60,6 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
-    DesignationInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        active:
-          type: boolean
-      additionalProperties: true
     Designation:
       allOf:
       - $ref: '#/components/schemas/DesignationInput'
@@ -93,6 +81,18 @@ components:
           updated_at:
             type: string
             format: date-time
+    DesignationInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+      additionalProperties: true
     Error:
       type: object
       properties:
@@ -124,14 +124,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
