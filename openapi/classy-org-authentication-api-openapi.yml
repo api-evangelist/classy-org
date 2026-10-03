@@ -44,22 +44,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AuthResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        expires_in:
-          type: integer
-          description: Token lifetime in seconds (observed value 7200 in Classy's own examples).
-        queries_log:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        token_type:
-          type: string
-          example: bearer
     AuthRequest:
       type: object
       required:
@@ -77,6 +61,22 @@ components:
           - client_credentials
           - password
           - refresh_token
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds (observed value 7200 in Classy's own examples).
+        queries_log:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        token_type:
+          type: string
+          example: bearer
     Error:
       type: object
       properties:

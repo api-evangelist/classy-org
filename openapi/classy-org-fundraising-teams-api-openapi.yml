@@ -166,18 +166,27 @@ components:
           updated_at:
             type: string
             format: date-time
-    Overview:
+    FundraisingTeamInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        goal:
+          type: number
+        parent_team_id:
+          type:
+          - integer
+          - 'null'
+      additionalProperties: true
+    DeleteResponse:
       type: object
       properties:
-        raw_goal:
-          type: number
-        raw_total_raised:
-          type: number
-        donor_count:
+        id:
           type: integer
-        currency_code:
-          type: string
-      additionalProperties: true
+        deleted:
+          type: boolean
     FundraisingPageInput:
       type: object
       required:
@@ -192,26 +201,17 @@ components:
         member_id:
           type: integer
       additionalProperties: true
-    DeleteResponse:
+    Overview:
       type: object
       properties:
-        id:
-          type: integer
-        deleted:
-          type: boolean
-    FundraisingTeamInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        goal:
+        raw_goal:
           type: number
-        parent_team_id:
-          type:
-          - integer
-          - 'null'
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
       additionalProperties: true
     Error:
       type: object
@@ -230,13 +230,6 @@ components:
               entity:
                 type: string
   parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The numeric ID of the resource.
-      schema:
-        type: integer
     With:
       name: with
       in: query
@@ -244,7 +237,20 @@ components:
       description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
       schema:
         type: string
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing, invalid, or expired Bearer token.
       content:
@@ -253,12 +259,6 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:

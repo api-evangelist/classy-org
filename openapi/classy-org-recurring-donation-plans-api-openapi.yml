@@ -79,50 +79,39 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The numeric ID of the resource.
-      schema:
-        type: integer
-    With:
-      name: with
-      in: query
-      required: false
-      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
-      schema:
-        type: string
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    TransactionPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Transaction'
+    RecurringDonationPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        member_id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - active
+          - paused
+          - cancelled
+        frequency:
+          type: string
+          description: e.g. monthly, weekly, annually.
+        raw_amount:
+          type: number
+        currency_code:
+          type: string
+        next_charge_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
     PaginationEnvelope:
       type: object
       properties:
@@ -152,6 +141,22 @@ components:
           type: integer
         total:
           type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
     Transaction:
       type: object
       description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
@@ -220,22 +225,15 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
+    TransactionPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transaction'
     TransactionItem:
       type: object
       properties:
@@ -267,38 +265,40 @@ components:
           - integer
           - 'null'
       additionalProperties: true
-    RecurringDonationPlan:
-      type: object
-      properties:
-        id:
-          type: integer
-        campaign_id:
-          type: integer
-        member_id:
-          type: integer
-        status:
-          type: string
-          enum:
-          - active
-          - paused
-          - cancelled
-        frequency:
-          type: string
-          description: e.g. monthly, weekly, annually.
-        raw_amount:
-          type: number
-        currency_code:
-          type: string
-        next_charge_date:
-          type: string
-          format: date
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      additionalProperties: true
+  parameters:
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the resource.
+      schema:
+        type: integer
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
