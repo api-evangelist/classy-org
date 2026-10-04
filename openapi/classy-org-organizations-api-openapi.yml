@@ -243,213 +243,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    RecurringDonationPlan:
-      type: object
-      properties:
-        id:
-          type: integer
-        campaign_id:
-          type: integer
-        member_id:
-          type: integer
-        status:
-          type: string
-          enum:
-          - active
-          - paused
-          - cancelled
-        frequency:
-          type: string
-          description: e.g. monthly, weekly, annually.
-        raw_amount:
-          type: number
-        currency_code:
-          type: string
-        next_charge_date:
-          type: string
-          format: date
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      additionalProperties: true
-    DesignationInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        active:
-          type: boolean
-      additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
-    DesignationPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Designation'
-    FundraisingPage:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingPageInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          fundraising_team_id:
-            type:
-            - integer
-            - 'null'
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    Designation:
-      allOf:
-      - $ref: '#/components/schemas/DesignationInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          organization_id:
-            type: integer
-          campaign_id:
-            type:
-            - integer
-            - 'null'
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    CampaignPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Campaign'
-    FundraisingPagePage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingPage'
-    CampaignInput:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
-        goal:
-          type: number
-        currency_code:
-          type: string
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
-          type: string
-          format: date-time
-      additionalProperties: true
-    SupporterInput:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email_address:
-          type: string
-          format: email
-        phone:
-          type: string
-      additionalProperties: true
-    SourceTrackingCode:
-      type: object
-      description: Confirmed against the official "Fetch Source Codes" Postman collection example.
-      properties:
-        id:
-          type: integer
-        campaign_id:
-          type: integer
-        code:
-          type: string
-        source:
-          type: string
-        medium:
-          type: string
-        fundraising_teams:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        fundraising_pages:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        transactions:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-      additionalProperties: true
-    TransactionPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Transaction'
     PaginationEnvelope:
       type: object
       properties:
@@ -479,7 +272,32 @@ components:
           type: integer
         total:
           type: integer
-    SupporterPage:
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type:
+            - integer
+            - 'null'
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    CampaignPage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -487,7 +305,7 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/Supporter'
+              $ref: '#/components/schemas/Campaign'
     Supporter:
       allOf:
       - $ref: '#/components/schemas/SupporterInput'
@@ -507,7 +325,7 @@ components:
           updated_at:
             type: string
             format: date-time
-    RecurringDonationPlanPage:
+    DesignationPage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -515,7 +333,7 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/RecurringDonationPlan'
+              $ref: '#/components/schemas/Designation'
     Transaction:
       type: object
       description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
@@ -584,6 +402,83 @@ components:
           type: string
           format: date-time
       additionalProperties: true
+    Designation:
+      allOf:
+      - $ref: '#/components/schemas/DesignationInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          campaign_id:
+            type:
+            - integer
+            - 'null'
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    TransactionPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transaction'
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
+    SupporterPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Supporter'
+    Organization:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        currency_code:
+          type: string
+        status:
+          type: string
+        website_url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    RecurringDonationPlanPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecurringDonationPlan'
     FundraisingPageInput:
       type: object
       required:
@@ -597,6 +492,103 @@ components:
           type: string
         member_id:
           type: integer
+      additionalProperties: true
+    CampaignInput:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
+        goal:
+          type: number
+        currency_code:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    SourceTrackingCode:
+      type: object
+      description: Confirmed against the official "Fetch Source Codes" Postman collection example.
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        code:
+          type: string
+        source:
+          type: string
+        medium:
+          type: string
+        fundraising_teams:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        fundraising_pages:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        transactions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    RecurringDonationPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        member_id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - active
+          - paused
+          - cancelled
+        frequency:
+          type: string
+          description: e.g. monthly, weekly, annually.
+        raw_amount:
+          type: number
+        currency_code:
+          type: string
+        next_charge_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    SupporterInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_address:
+          type: string
+          format: email
+        phone:
+          type: string
       additionalProperties: true
     Campaign:
       allOf:
@@ -617,6 +609,18 @@ components:
           updated_at:
             type: string
             format: date-time
+    DesignationInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+      additionalProperties: true
     TransactionItem:
       type: object
       properties:
@@ -648,27 +652,29 @@ components:
           - integer
           - 'null'
       additionalProperties: true
-    Organization:
+    Error:
       type: object
       properties:
-        id:
-          type: integer
-        name:
+        error:
           type: string
-        currency_code:
+        error_description:
           type: string
-        status:
-          type: string
-        website_url:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      additionalProperties: true
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing, invalid, or expired Bearer token.
       content:
@@ -681,20 +687,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    With:
-      name: with
-      in: query
-      required: false
-      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
-      schema:
-        type: string
     Id:
       name: id
       in: path
@@ -702,6 +695,13 @@ components:
       description: The numeric ID of the resource.
       schema:
         type: integer
+    With:
+      name: with
+      in: query
+      required: false
+      description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

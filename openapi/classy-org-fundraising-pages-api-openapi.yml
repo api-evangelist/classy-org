@@ -94,7 +94,38 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Overview:
+      type: object
+      properties:
+        raw_goal:
+          type: number
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
+      additionalProperties: true
     FundraisingPage:
       allOf:
       - $ref: '#/components/schemas/FundraisingPageInput'
@@ -120,13 +151,6 @@ components:
           updated_at:
             type: string
             format: date-time
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        deleted:
-          type: boolean
     FundraisingPageInput:
       type: object
       required:
@@ -141,18 +165,13 @@ components:
         member_id:
           type: integer
       additionalProperties: true
-    Overview:
+    DeleteResponse:
       type: object
       properties:
-        raw_goal:
-          type: number
-        raw_total_raised:
-          type: number
-        donor_count:
+        id:
           type: integer
-        currency_code:
-          type: string
-      additionalProperties: true
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -184,25 +203,6 @@ components:
       description: The numeric ID of the resource.
       schema:
         type: integer
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

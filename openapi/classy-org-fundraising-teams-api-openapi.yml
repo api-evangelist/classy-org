@@ -119,28 +119,52 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    FundraisingTeam:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingTeamInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
+    Overview:
+      type: object
+      properties:
+        raw_goal:
+          type: number
+        raw_total_raised:
+          type: number
+        donor_count:
+          type: integer
+        currency_code:
+          type: string
+      additionalProperties: true
+    FundraisingTeamInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        goal:
+          type: number
+        parent_team_id:
+          type:
+          - integer
+          - 'null'
+      additionalProperties: true
     FundraisingPage:
       allOf:
       - $ref: '#/components/schemas/FundraisingPageInput'
@@ -166,27 +190,6 @@ components:
           updated_at:
             type: string
             format: date-time
-    FundraisingTeamInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        goal:
-          type: number
-        parent_team_id:
-          type:
-          - integer
-          - 'null'
-      additionalProperties: true
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        deleted:
-          type: boolean
     FundraisingPageInput:
       type: object
       required:
@@ -201,18 +204,13 @@ components:
         member_id:
           type: integer
       additionalProperties: true
-    Overview:
+    DeleteResponse:
       type: object
       properties:
-        raw_goal:
-          type: number
-        raw_total_raised:
-          type: number
-        donor_count:
+        id:
           type: integer
-        currency_code:
-          type: string
-      additionalProperties: true
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -229,6 +227,27 @@ components:
                 type: string
               entity:
                 type: string
+    FundraisingTeam:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingTeamInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
   parameters:
     With:
       name: with
@@ -244,25 +263,6 @@ components:
       description: The numeric ID of the resource.
       schema:
         type: integer
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
