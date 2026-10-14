@@ -228,3 +228,6 @@ common:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-parent: gofundme
+x-relationship: product
+x-parent-note: GoFundMe acquired Classy in 2022; Classy is now GoFundMe Pro, a GoFundMe product. A product profile under its parent, not a duplicate to merge (consolidated pass #4, 2026-10-14).

@@ -51,8 +51,8 @@ edges:
   - Partner-built
 - partner_name: Blackbaud CRM
   app: Blackbaud CRM
-  partner: null
-  partner_match: null
+  partner: blackbaud
+  partner_match: domain
   partner_candidate: null
   type: marketplace
   marketplace: own

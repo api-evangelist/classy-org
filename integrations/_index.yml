@@ -28,6 +28,7 @@
   arazzo: null
 - slug: classy-org-blackbaud-crm
   label: Blackbaud CRM
+  partner: blackbaud
   partner_name: Blackbaud CRM
   category: crm-donor-management
   type: marketplace
