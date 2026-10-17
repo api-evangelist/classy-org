@@ -318,35 +318,95 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    PaginationEnvelope:
+    OfflineTransactionInput:
       type: object
+      description: Modeled on the official classy-org/postman-collections "Bulk Offline Donations" example bodies (Offline Transaction CSV / JSON).
+      required:
+      - billing_first_name
+      - billing_last_name
+      - items
+      - offline_payment_info
       properties:
-        current_page:
-          type: integer
-        first_page_url:
+        billing_address1:
           type: string
-        from:
-          type: integer
-        last_page:
-          type: integer
-        last_page_url:
+        billing_address2:
           type: string
-        next_page_url:
-          type:
-          - string
-          - 'null'
-        path:
+        billing_city:
           type: string
-        per_page:
-          type: integer
-        prev_page_url:
-          type:
-          - string
-          - 'null'
-        to:
-          type: integer
-        total:
-          type: integer
+        billing_country:
+          type: string
+        billing_first_name:
+          type: string
+        billing_last_name:
+          type: string
+        billing_postal_code:
+          type: string
+        billing_state:
+          type: string
+        member_email_address:
+          type: string
+          format: email
+        member_name:
+          type: string
+        member_phone:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+          - pending
+          - failed
+        offline_payment_info:
+          type: object
+          properties:
+            payment_type:
+              type: string
+              description: e.g. cash, check, in_kind.
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_name:
+                type: string
+              quantity:
+                type: integer
+              raw_final_price:
+                type: number
+              type:
+                type: string
+                description: e.g. donation, ticket, merchandise.
+    CampaignInput:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
+        goal:
+          type: number
+        currency_code:
+          type: string
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    DesignationPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Designation'
     Overview:
       type: object
       properties:
@@ -359,61 +419,6 @@ components:
         currency_code:
           type: string
       additionalProperties: true
-    FundraisingPage:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingPageInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          fundraising_team_id:
-            type:
-            - integer
-            - 'null'
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    FundraisingTeam:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingTeamInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    DesignationPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Designation'
     Transaction:
       type: object
       description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
@@ -482,104 +487,6 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    Designation:
-      allOf:
-      - $ref: '#/components/schemas/DesignationInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          organization_id:
-            type: integer
-          campaign_id:
-            type:
-            - integer
-            - 'null'
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    TransactionPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Transaction'
-    FundraisingPagePage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingPage'
-    FundraisingTeamInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        goal:
-          type: number
-        parent_team_id:
-          type:
-          - integer
-          - 'null'
-      additionalProperties: true
-    FundraisingPageInput:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        goal:
-          type: number
-        story:
-          type: string
-        member_id:
-          type: integer
-      additionalProperties: true
-    FundraisingTeamPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingTeam'
-    CampaignInput:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
-        goal:
-          type: number
-        currency_code:
-          type: string
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
-          type: string
-          format: date-time
-      additionalProperties: true
     SourceTrackingCode:
       type: object
       description: Confirmed against the official "Fetch Source Codes" Postman collection example.
@@ -610,6 +517,36 @@ components:
             type: object
             additionalProperties: true
       additionalProperties: true
+    FundraisingTeamInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        goal:
+          type: number
+        parent_team_id:
+          type:
+          - integer
+          - 'null'
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
     Campaign:
       allOf:
       - $ref: '#/components/schemas/CampaignInput'
@@ -629,6 +566,70 @@ components:
           updated_at:
             type: string
             format: date-time
+    Designation:
+      allOf:
+      - $ref: '#/components/schemas/DesignationInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          campaign_id:
+            type:
+            - integer
+            - 'null'
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingTeamPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingTeam'
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type:
+            - integer
+            - 'null'
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
     DesignationInput:
       type: object
       required:
@@ -641,64 +642,79 @@ components:
         active:
           type: boolean
       additionalProperties: true
-    OfflineTransactionInput:
+    PaginationEnvelope:
       type: object
-      description: Modeled on the official classy-org/postman-collections "Bulk Offline Donations" example bodies (Offline Transaction CSV / JSON).
-      required:
-      - billing_first_name
-      - billing_last_name
-      - items
-      - offline_payment_info
       properties:
-        billing_address1:
+        current_page:
+          type: integer
+        first_page_url:
           type: string
-        billing_address2:
+        from:
+          type: integer
+        last_page:
+          type: integer
+        last_page_url:
           type: string
-        billing_city:
+        next_page_url:
+          type:
+          - string
+          - 'null'
+        path:
           type: string
-        billing_country:
+        per_page:
+          type: integer
+        prev_page_url:
+          type:
+          - string
+          - 'null'
+        to:
+          type: integer
+        total:
+          type: integer
+    FundraisingPageInput:
+      type: object
+      required:
+      - title
+      properties:
+        title:
           type: string
-        billing_first_name:
+        goal:
+          type: number
+        story:
           type: string
-        billing_last_name:
-          type: string
-        billing_postal_code:
-          type: string
-        billing_state:
-          type: string
-        member_email_address:
-          type: string
-          format: email
-        member_name:
-          type: string
-        member_phone:
-          type: string
-        status:
-          type: string
-          enum:
-          - success
-          - pending
-          - failed
-        offline_payment_info:
-          type: object
-          properties:
-            payment_type:
-              type: string
-              description: e.g. cash, check, in_kind.
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              product_name:
-                type: string
-              quantity:
-                type: integer
-              raw_final_price:
-                type: number
-              type:
-                type: string
-                description: e.g. donation, ticket, merchandise.
+        member_id:
+          type: integer
+      additionalProperties: true
+    TransactionPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transaction'
+    FundraisingTeam:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingTeamInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
     TransactionItem:
       type: object
       properties:
@@ -730,41 +746,6 @@ components:
           - integer
           - 'null'
       additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     Id:
       name: id
@@ -780,6 +761,25 @@ components:
       description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
       schema:
         type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -243,61 +243,29 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    PaginationEnvelope:
+    CampaignInput:
       type: object
+      required:
+      - name
+      - type
       properties:
-        current_page:
-          type: integer
-        first_page_url:
+        name:
           type: string
-        from:
-          type: integer
-        last_page:
-          type: integer
-        last_page_url:
+        type:
           type: string
-        next_page_url:
-          type:
-          - string
-          - 'null'
-        path:
+          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
+        goal:
+          type: number
+        currency_code:
           type: string
-        per_page:
-          type: integer
-        prev_page_url:
-          type:
-          - string
-          - 'null'
-        to:
-          type: integer
-        total:
-          type: integer
-    FundraisingPage:
-      allOf:
-      - $ref: '#/components/schemas/FundraisingPageInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          campaign_id:
-            type: integer
-          fundraising_team_id:
-            type:
-            - integer
-            - 'null'
-          status:
-            type: string
-          url:
-            type: string
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    CampaignPage:
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+      additionalProperties: true
+    DesignationPage:
       allOf:
       - $ref: '#/components/schemas/PaginationEnvelope'
       - type: object
@@ -305,7 +273,7 @@ components:
           data:
             type: array
             items:
-              $ref: '#/components/schemas/Campaign'
+              $ref: '#/components/schemas/Designation'
     Supporter:
       allOf:
       - $ref: '#/components/schemas/SupporterInput'
@@ -325,15 +293,6 @@ components:
           updated_at:
             type: string
             format: date-time
-    DesignationPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Designation'
     Transaction:
       type: object
       description: Field names confirmed against the official "Fetch Multi-Item Order" Postman collection example response.
@@ -402,54 +361,6 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    Designation:
-      allOf:
-      - $ref: '#/components/schemas/DesignationInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          organization_id:
-            type: integer
-          campaign_id:
-            type:
-            - integer
-            - 'null'
-          raw_current_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    TransactionPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Transaction'
-    FundraisingPagePage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/FundraisingPage'
-    SupporterPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Supporter'
     Organization:
       type: object
       properties:
@@ -467,51 +378,6 @@ components:
           type: string
           format: date-time
         updated_at:
-          type: string
-          format: date-time
-      additionalProperties: true
-    RecurringDonationPlanPage:
-      allOf:
-      - $ref: '#/components/schemas/PaginationEnvelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/RecurringDonationPlan'
-    FundraisingPageInput:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        goal:
-          type: number
-        story:
-          type: string
-        member_id:
-          type: integer
-      additionalProperties: true
-    CampaignInput:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          description: Campaign type, e.g. donation, peer_to_peer, crowdfunding, event, ticketed_event.
-        goal:
-          type: number
-        currency_code:
-          type: string
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
           type: string
           format: date-time
       additionalProperties: true
@@ -545,6 +411,177 @@ components:
             type: object
             additionalProperties: true
       additionalProperties: true
+    RecurringDonationPlanPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecurringDonationPlan'
+    CampaignPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Campaign'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              entity:
+                type: string
+    SupporterPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Supporter'
+    Campaign:
+      allOf:
+      - $ref: '#/components/schemas/CampaignInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          status:
+            type: string
+          raw_current_raised_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    Designation:
+      allOf:
+      - $ref: '#/components/schemas/DesignationInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          organization_id:
+            type: integer
+          campaign_id:
+            type:
+            - integer
+            - 'null'
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPage:
+      allOf:
+      - $ref: '#/components/schemas/FundraisingPageInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          campaign_id:
+            type: integer
+          fundraising_team_id:
+            type:
+            - integer
+            - 'null'
+          status:
+            type: string
+          url:
+            type: string
+          raw_current_amount:
+            type: number
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+    FundraisingPagePage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/FundraisingPage'
+    SupporterInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_address:
+          type: string
+          format: email
+        phone:
+          type: string
+      additionalProperties: true
+    DesignationInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+      additionalProperties: true
+    PaginationEnvelope:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        first_page_url:
+          type: string
+        from:
+          type: integer
+        last_page:
+          type: integer
+        last_page_url:
+          type: string
+        next_page_url:
+          type:
+          - string
+          - 'null'
+        path:
+          type: string
+        per_page:
+          type: integer
+        prev_page_url:
+          type:
+          - string
+          - 'null'
+        to:
+          type: integer
+        total:
+          type: integer
     RecurringDonationPlan:
       type: object
       properties:
@@ -577,50 +614,29 @@ components:
           type: string
           format: date-time
       additionalProperties: true
-    SupporterInput:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email_address:
-          type: string
-          format: email
-        phone:
-          type: string
-      additionalProperties: true
-    Campaign:
-      allOf:
-      - $ref: '#/components/schemas/CampaignInput'
-      - type: object
-        properties:
-          id:
-            type: integer
-          organization_id:
-            type: integer
-          status:
-            type: string
-          raw_current_raised_amount:
-            type: number
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
-    DesignationInput:
+    FundraisingPageInput:
       type: object
       required:
-      - name
+      - title
       properties:
-        name:
+        title:
           type: string
-        description:
+        goal:
+          type: number
+        story:
           type: string
-        active:
-          type: boolean
+        member_id:
+          type: integer
       additionalProperties: true
+    TransactionPage:
+      allOf:
+      - $ref: '#/components/schemas/PaginationEnvelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transaction'
     TransactionItem:
       type: object
       properties:
@@ -652,41 +668,6 @@ components:
           - integer
           - 'null'
       additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              action:
-                type: string
-              entity:
-                type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     Id:
       name: id
@@ -702,6 +683,25 @@ components:
       description: Comma-separated list of related sub-resources to eager-load, e.g. items, source_tracking_codes, organization, member.
       schema:
         type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

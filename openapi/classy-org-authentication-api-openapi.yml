@@ -44,23 +44,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AuthRequest:
-      type: object
-      required:
-      - client_id
-      - client_secret
-      - grant_type
-      properties:
-        client_id:
-          type: string
-        client_secret:
-          type: string
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
-          - password
-          - refresh_token
     Error:
       type: object
       properties:
@@ -93,6 +76,23 @@ components:
         token_type:
           type: string
           example: bearer
+    AuthRequest:
+      type: object
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+          - password
+          - refresh_token
   securitySchemes:
     bearerAuth:
       type: http
