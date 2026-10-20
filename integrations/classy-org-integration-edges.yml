@@ -255,9 +255,9 @@ edges:
   channel: null
   relationship: platform-app
   direction: unknown
-  evidence: https://pro.gofundme.com/c/integrations/donorperfect/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/37288738275227-DonorPerfect-integration
   category: crm-donor-management
-  partner_domain: bytespree.com
+  partner_domain: null
   detected_by: sweep-nonprofit.py
   detected: '2026-10-14'
   store_tag: multi-option
@@ -351,8 +351,8 @@ edges:
   store_tag: partner-built
   store_tag_text:
   - Partner-built
-- partner_name: https://pro.gofundme.com/c/integrations/givingiq/
-  app: https://pro.gofundme.com/c/integrations/givingiq/
+- partner_name: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
+  app: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
   partner: null
   partner_match: null
   partner_candidate: null
@@ -361,11 +361,11 @@ edges:
   channel: partner-built
   relationship: platform-app
   direction: partner-built
-  evidence: https://pro.gofundme.com/c/integrations/givingiq/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
   category: fundraising-giving-tools
-  partner_domain: bytespree.com
+  partner_domain: sampleembedcode.com
   detected_by: sweep-nonprofit.py
-  detected: '2026-10-14'
+  detected: '2026-10-19'
   store_tag: partner-built
   store_tag_text:
   - Partner-built
@@ -379,9 +379,9 @@ edges:
   channel: partner-built
   relationship: platform-app
   direction: partner-built
-  evidence: https://pro.gofundme.com/c/integrations/goodunited/
+  evidence: https://pro.gofundme.com/c/integrations/
   category: marketing-supporter-engagement
-  partner_domain: bytespree.com
+  partner_domain: goodunited.io
   detected_by: sweep-nonprofit.py
   detected: '2026-10-14'
   store_tag: partner-built
@@ -451,9 +451,9 @@ edges:
   channel: null
   relationship: platform-app
   direction: unknown
-  evidence: https://pro.gofundme.com/c/integrations/hubspot/
+  evidence: https://pro.gofundme.com/c/integrations/
   category: crm-donor-management
-  partner_domain: bytespree.com
+  partner_domain: null
   detected_by: sweep-nonprofit.py
   detected: '2026-10-14'
   store_tag: multi-option
@@ -997,9 +997,9 @@ edges:
   channel: null
   relationship: platform-app
   direction: unknown
-  evidence: https://pro.gofundme.com/c/integrations/virtuous/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/37288766497563-Connect-to-Virtuous
   category: crm-donor-management
-  partner_domain: bytespree.com
+  partner_domain: virtuous.org
   detected_by: sweep-nonprofit.py
   detected: '2026-10-14'
   store_tag: multi-option

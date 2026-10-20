@@ -163,7 +163,7 @@
   category: crm-donor-management
   type: marketplace
   marketplace: own
-  evidence: https://pro.gofundme.com/c/integrations/donorperfect/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/37288738275227-DonorPerfect-integration
   source: edge
   relationship: platform-app
   status: not-a-workflow
@@ -228,14 +228,14 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
-- slug: classy-org-https-pro-gofundme-com-c-integrations-givingiq
-  label: https://pro.gofundme.com/c/integrations/givingiq/
-  partner_name: https://pro.gofundme.com/c/integrations/givingiq/
+- slug: classy-org-https-prosupport-gofundme-com-hc-en-us-articles-40051968948891-set-up-the-donatestock-integration
+  label: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
+  partner_name: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
   category: fundraising-giving-tools
   type: marketplace
   marketplace: own
   channel: partner-built
-  evidence: https://pro.gofundme.com/c/integrations/givingiq/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/40051968948891-Set-up-the-DonateStock-integration
   source: edge
   relationship: platform-app
   status: not-a-workflow
@@ -247,7 +247,7 @@
   type: marketplace
   marketplace: own
   channel: partner-built
-  evidence: https://pro.gofundme.com/c/integrations/goodunited/
+  evidence: https://pro.gofundme.com/c/integrations/
   source: edge
   relationship: platform-app
   status: not-a-workflow
@@ -295,7 +295,7 @@
   category: crm-donor-management
   type: marketplace
   marketplace: own
-  evidence: https://pro.gofundme.com/c/integrations/hubspot/
+  evidence: https://pro.gofundme.com/c/integrations/
   source: edge
   relationship: platform-app
   status: not-a-workflow
@@ -661,7 +661,7 @@
   category: crm-donor-management
   type: marketplace
   marketplace: own
-  evidence: https://pro.gofundme.com/c/integrations/virtuous/
+  evidence: https://prosupport.gofundme.com/hc/en-us/articles/37288766497563-Connect-to-Virtuous
   source: edge
   relationship: platform-app
   status: not-a-workflow
